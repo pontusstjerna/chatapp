@@ -40,7 +40,9 @@ Process: Vem gör vad?
 4. Add chat rooms
 5. ...
 ### Some roles
-
+* Initially Henrik and Henry on backend and Johanna and Pontus on frontend
+* Then rotate
 
 Diverse: Roller i applikationen, authentisiering, validering, felhantering, i18n, ...
-* Roles in the application: Components from react?
+* In React everything is component based
+* ...
