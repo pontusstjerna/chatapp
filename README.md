@@ -8,12 +8,20 @@ Vad tänker ni göra? Vilken sorts applikation?
 * Navigation between chat rooms
 * User registration and settings page
 * Chat rooms with categories (internet forum inspired) - initially static 
+* Authentication with OAuth2
 
 Vilken plattform (JEE/Node)? Ev. ramverk, API:n? Utvecklingsmiljö?
 * MERN (Mongo - Express - React - Node) stack
 
 Vilka use cases	har ni tänkt er?
-* No use cases yet
+# As a user I can
+* register and log in on the webapp with my facebook or google account
+* browse different chat rooms in different categories
+* can enter any public chatroom
+* send and receive messages in a public chatroom
+* change my profile settings, such as nickname
+* not use any profanity
+* maybe change language of the webapp
 
 Rita en bild på den övergripande arkitekturen/designen
 * No picture yet
