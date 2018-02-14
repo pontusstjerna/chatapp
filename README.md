@@ -2,9 +2,12 @@
 Project in course Web Applications
 
 ## Checklist (preliminary)
-
 Vad tänker ni göra? Vilken sorts applikation?
-* Real time chat application
+## Real time chat application 
+* Real time chat rooms
+* Navigation between chat rooms
+* User registration and settings page
+* Chat rooms with categories (internet forum inspired) - initially static 
 
 Vilken plattform (JEE/Node)? Ev. ramverk, API:n? Utvecklingsmiljö?
 * MERN (Mongo - Express - React - Node) stack
