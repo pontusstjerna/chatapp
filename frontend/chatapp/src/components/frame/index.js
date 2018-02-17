@@ -6,6 +6,8 @@ import {
   } from 'react-router-dom';
 
 import HomeView from '../home-view';
+import ChatroomsView from '../chatrooms-view';
+import AboutView from '../about-view';
 import Footer from '../footer';
 // This should import the default bootstrap css stuff
 import 'bootstrap/dist/css/bootstrap.min.css'; 
@@ -39,6 +41,8 @@ class Frame extends Component {
                     { /* PUT ALL CONTENT HERE */}
                     <div className="content"> 
                         <Route exact path="/" component={HomeView} />
+                        <Route path="/chat" component={ChatroomsView} />
+                        <Route path="/about" component={AboutView} />
                         {/* <Route path="/chat" component={undefined} /> */}
                     </div>
                 <Footer />
