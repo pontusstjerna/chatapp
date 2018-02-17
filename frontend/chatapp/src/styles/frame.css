@@ -1,0 +1,26 @@
+.menu-item {
+    background-color: #555555;
+    color: wheat;
+    padding: 0.5em;
+}
+
+.menu-item:hover {
+    background-color: darkslategray;
+    transition-duration: 300ms;
+    color: white;
+}
+
+.active {
+    color: #555555;
+    background-color: #CCCCCC;
+    text-decoration: underline;
+}
+
+.content {
+    margin: 3em;
+}
+
+#login {
+    font-size: 1.5em;
+    align-self: center;
+}
