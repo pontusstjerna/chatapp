@@ -4,10 +4,10 @@ textarea {
 
 .chat-content {
     border-radius: 0.5em;
+    background-color: #EEEEEE;
 }
 
 .chat-input {
-    background-color: #EEEEEE;
     border-radius: 0.5em;
 }
 
