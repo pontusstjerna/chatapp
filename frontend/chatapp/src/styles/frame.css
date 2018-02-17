@@ -1,5 +1,6 @@
 .menu-item {
-    background-color: lightgoldenrodyellow;
+    background-color: #555555;
+    color: wheat;
     padding: 0.5em;
 }
 
@@ -10,10 +11,16 @@
 }
 
 .active {
-    color: green;
-    background-color: lightsteelblue;
+    color: #555555;
+    background-color: #CCCCCC;
+    text-decoration: underline;
 }
 
 .content {
     margin: 3em;
+}
+
+#login {
+    font-size: 1.5em;
+    align-self: center;
 }

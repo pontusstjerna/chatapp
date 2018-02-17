@@ -1,0 +1,18 @@
+textarea {
+    width: 100%;
+}
+
+.chat-content {
+    border-radius: 0.5em;
+}
+
+.chat-input {
+    background-color: #EEEEEE;
+    border-radius: 0.5em;
+}
+
+.btn-send {
+    margin: 1em;
+    border-radius: 1em;
+    background-color: lightskyblue;
+}

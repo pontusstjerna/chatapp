@@ -32,18 +32,22 @@ class Frame extends Component {
         return (
             <HashRouter>
                 <div className="text-center">
-                    <h1>!ChatApp</h1>
+                    <div className="row">
+                        <h1 className="offset-md-2 col-md-8">!ChatApp</h1>
+                        <a id="login" className="col-md-2" href="https://www.google.com">Log in</a>
+                    </div>
+                    <hr/>
                     <div>
                         <NavLink className="menu-item" exact to="/">Home</NavLink>
                         <NavLink className="menu-item" to="/chat">Chat!</NavLink>        
                         <NavLink className="menu-item" to="/about">About</NavLink>
+                        <NavLink className="menu-item" to="/register">Register</NavLink>
                     </div>
                     { /* PUT ALL CONTENT HERE */}
                     <div className="content"> 
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
-                        {/* <Route path="/chat" component={undefined} /> */}
                     </div>
                 <Footer />
                 </div>                
