@@ -1,0 +1,19 @@
+.menu-item {
+    background-color: lightgoldenrodyellow;
+    padding: 0.5em;
+}
+
+.menu-item:hover {
+    background-color: darkslategray;
+    transition-duration: 300ms;
+    color: white;
+}
+
+.active {
+    color: green;
+    background-color: lightsteelblue;
+}
+
+.content {
+    margin: 3em;
+}
