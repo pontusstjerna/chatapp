@@ -8,6 +8,9 @@ const index = require('./src/routes/index');
 const authors = require('./src/routes/authors');
 const books = require('./src/routes/books');
 
+
+import { users } from './src/routes/users';
+
 const app = express();
 
 app.use(logger('dev')); //logs all http requests
@@ -29,6 +32,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use('/', index);
 app.use('/authors', authors);
 app.use('/books', books);
+app.use('/users', users());
 
 // catch req if not caught by router, set 404 and forward to error handler
 app.use(function(req, res, next) {
