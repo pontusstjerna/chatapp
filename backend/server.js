@@ -4,12 +4,14 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+//placeholders
 const index = require('./src/routes/index');
-const authors = require('./src/routes/authors');
-const books = require('./src/routes/books');
+//const authors = require('./src/routes/authors');
+//const books = require('./src/routes/books');
 
 
 import { users } from './src/routes/users';
+import { rooms } from './src/routes/rooms';
 
 const app = express();
 
@@ -30,9 +32,10 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Set up routes
 app.use('/', index);
-app.use('/authors', authors);
-app.use('/books', books);
+//app.use('/authors', authors);
+//app.use('/books', books);
 app.use('/users', users());
+app.use('/rooms', rooms());
 
 // catch req if not caught by router, set 404 and forward to error handler
 app.use(function(req, res, next) {
