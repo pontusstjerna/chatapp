@@ -4,20 +4,64 @@ import User from '../models/user';
 export const users = () => {
     let router = new Router();
 
+    // Get all users
     router.get('/', (req, res, next) => {
-        let usr = new User({
-            nickname: 'user1',
-            password: 'pass1',
-        });
+        User.find()
+        .then(docs => {
+            res.json(docs);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+    });
 
-        usr.save().then(x => 
-            console.log('Created: ' + JSON.stringify(x))
-        ).catch(err => 
-            console.log(JSON.stringify(err))
-        );
+    // Get user by id
+    router.get('/:id', (req, res, next) => {
+        let userId = req.params.id;
+        User.findOne(userId)
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+    });
 
-        res.status(200).send();
-    });    
+    // Create
+    router.post('/', (req, res, next) => {
+        let newUser = new User(req.body);
+        newUser.save()
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+    });
+
+    //Update
+    router.put('/:id', (req, res, next) => {
+        let userId = req.params.id;
+        User.findByIdAndUpdate(userId, { $set: req.body}, { new: true })
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+    });
+
+    //Delete
+    router.delete('/:id', (req, res, next) => {
+        let userId = req.params.id;
+        User.findByIdAndRemove(userId)
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+    });
 
     return router;
 }

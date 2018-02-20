@@ -4,59 +4,62 @@ import Room from '../models/room';
 export const rooms = () => {
     let router = new Router();
 
-    router.get('/', function(req, res, next) {
-      Room.find()
+    router.get('/', (req, res, next) => {
+        Room.find()
         .then(docs => {
-          res.json(docs);
+            res.json(docs);
         })
         .catch(err => {
-          res.status(500).json(err);
+            res.status(500).json(err);
         })
     });
 
-    router.get('/:id', function(req, res, next) {
-      let roomId = req.params.id;
-      Room.findOne(id)
+    router.get('/:id/messages', (req, res, next) => {
+        let roomId = req.params.id;
+        console.log("*** NOT IMPL. GET messages in room");
+    });
+
+    router.get('/:id', (req, res, next) => {
+        let roomId = req.params.id;
+        Room.findOne(id)
         .then(doc => {
-          res.json(doc);
+            res.json(doc);
         })
         .catch(err => {
-          res.status(500).json(err);
+            res.status(500).json(err);
         })
     });
 
-    router.post('/', function(req, res, next) {
-      let newRoom = new Room(req.body);
-      newRoom.save()
+    router.post('/', (req, res, next) => {
+        let newRoom = new Room(req.body);
+        newRoom.save()
         .then(doc => {
-          res.json(doc);
+            res.json(doc);
         })
         .catch(err => {
-          res.status(500).json(err);
+            res.status(500).json(err);
         })
     });
 
-    router.put('/:id', function(req, res, next) {
-      let roomId = req.params.id;
-      console.log("*** PUT on:", roomId)
-      Room.findByIdAndUpdate(roomId, { $set: req.body}, { new: true })
+    router.put('/:id', (req, res, next) => {
+        let roomId = req.params.id;
+        Room.findByIdAndUpdate(roomId, { $set: req.body}, { new: true })
         .then(doc => {
-          res.json(doc);
+            res.json(doc);
         })
         .catch(err => {
-          res.status(500).json(err);
+            res.status(500).json(err);
         })
     });
 
-    router.delete('/:id', function(req, res, next) {
-      let roomId = req.params.id;
-      console.log("*** DELETE on /rooms/", roomId)
-      Room.findByIdAndRemove(roomId)
+    router.delete('/:id', (req, res, next) => {
+        let roomId = req.params.id;
+        Room.findByIdAndRemove(roomId)
         .then(doc => {
-          res.json(doc);
+            res.json(doc);
         })
         .catch(err => {
-          res.status(500).json(err);
+            res.status(500).json(err);
         })
     });
 

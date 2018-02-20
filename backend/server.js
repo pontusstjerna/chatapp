@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up db connection
 //Set up default mongoose connection
-const mongoDB = 'mongodb://127.0.0.1/library';
+const mongoDB = 'mongodb://127.0.0.1/chatdb';
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
