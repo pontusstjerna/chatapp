@@ -3,7 +3,7 @@ import Message from '../models/message';
 
 export const messages = () => {
     let router = new Router();
-    
+
     router.get('/',(req, res, next) => {
         Message.find()
         .then(docs => {
@@ -21,10 +21,10 @@ export const messages = () => {
             res.json(docs);
    	    })
     });
-	
+
     router.post('/',(req,res,next) =>{
         let newMessage = new Message(req.body)
-   	    Message.save().then(doc => {
+   	    newMessage.save().then(doc => {
             res.json(doc);
         })
         .catch(err => {

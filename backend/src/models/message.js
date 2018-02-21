@@ -13,12 +13,12 @@ const MessageSchema = new Schema(
             default: Date.now
         },
         user: {
-            type: Schema.ObjectID,
+            type: Schema.ObjectId,
             ref: 'User',
             required: true
         },
         room: {
-            type: Schema.ObjectID,
+            type: Schema.ObjectId,
             ref: 'Room',
             required: true
         }
