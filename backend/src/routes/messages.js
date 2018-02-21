@@ -8,7 +8,7 @@ export const messages = () => {
         Message.find()
         .then(docs => {
             res.json(docs);
-        }))
+        })
         .catch(err => {
             res.status(500)
         })
@@ -43,4 +43,6 @@ export const messages = () => {
         })
     });
 
-    )
+    return router;
+
+}
