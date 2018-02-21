@@ -12,6 +12,8 @@ const index = require('./src/routes/index');
 
 import { users } from './src/routes/users';
 import { rooms } from './src/routes/rooms';
+import { messages } from './src/routes/messages';
+
 
 const app = express();
 
@@ -36,7 +38,7 @@ app.use('/', index);
 //app.use('/books', books);
 app.use('/users', users());
 app.use('/rooms', rooms());
-
+app.use('/messages', messages());
 // catch req if not caught by router, set 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');
