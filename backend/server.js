@@ -4,6 +4,9 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const http = require('http')
+const socketIO = require('socket.io')
+
 //placeholders
 const index = require('./src/routes/index');
 //const authors = require('./src/routes/authors');
@@ -16,6 +19,12 @@ import { messages } from './src/routes/messages';
 
 
 const app = express();
+
+// our server instance
+const server = http.createServer(app)
+
+// This creates our socket using the instance of the server
+const io = socketIO(server)
 
 app.use(logger('dev')); //logs all http requests
 app.use(bodyParser.json());
@@ -59,3 +68,14 @@ const port = process.env.PORT || 3000
 app.listen(port);
 console.log('===================================');
 console.log('Backend running on port: ' + port);
+
+
+io.on('connection', socket => {
+  console.log('User connected')
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
+
+server.listen(4000, () => console.log(`Listening on port 4000`))
