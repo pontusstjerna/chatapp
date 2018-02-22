@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import socketIOClient from 'socket.io-client';
 import '../../../styles/chatwindow.css';
 
 class ChatWindow extends Component {
@@ -10,7 +10,8 @@ class ChatWindow extends Component {
         this.state = {
             content: '',
             input: '',
-            user: 'Anonymous'
+            user: 'Anonymous',
+            endpoint: "http://192.168.0.105:4000" // this is where we are connecting to with sockets(server URL)
         };
     }
 
@@ -20,9 +21,18 @@ class ChatWindow extends Component {
         this.setState({content: this.state.content + msg + '\n'});
         this.setState({input: ''});
         // TODO: Send for real
+        
+	console.log('sending')
+        const socket = socketIOClient(this.state.endpoint)
+	socket.emit('change color','red')
     }
 
     render() {
+	const socket = socketIOClient(this.state.endpoint)
+	socket.on('change color', (color) => {
+      // setting the color of our button
+      document.body.style.backgroundColor = color
+    })
         return (
             <div>
                 <div className="row">
