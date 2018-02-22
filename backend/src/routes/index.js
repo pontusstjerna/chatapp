@@ -1,8 +1,11 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
 
-router.get('/', function(req, res, next) {
-  res.json({"message": "index route for rest api"});
-});
+export const index = () => {
+    let router = new Router();
 
-module.exports = router;
+    router.get('/', (req, res, next) => {
+        res.json({"message": "index route for rest api"});
+    });
+
+    return router;
+}

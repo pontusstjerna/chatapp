@@ -4,16 +4,10 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-//placeholders
-const index = require('./src/routes/index');
-//const authors = require('./src/routes/authors');
-//const books = require('./src/routes/books');
-
-
+import { index } from './src/routes/index';
 import { users } from './src/routes/users';
 import { rooms } from './src/routes/rooms';
 import { messages } from './src/routes/messages';
-
 
 const app = express();
 
@@ -33,9 +27,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Set up routes
-app.use('/', index);
-//app.use('/authors', authors);
-//app.use('/books', books);
+app.use('/', index());
 app.use('/users', users());
 app.use('/rooms', rooms());
 app.use('/messages', messages());
