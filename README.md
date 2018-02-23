@@ -3,11 +3,11 @@ Project in course Web Applications
 
 ## Checklist (preliminary)
 Vad tänker ni göra? Vilken sorts applikation?
-## Real time chat application 
+## Real time chat application
 * Real time chat rooms
 * Navigation between chat rooms
 * User registration and settings page
-* Chat rooms with categories (internet forum inspired) - initially static 
+* Chat rooms with categories (internet forum inspired) - initially static
 * Authentication with OAuth2
 
 Vilken plattform (JEE/Node)? Ev. ramverk, API:n? Utvecklingsmiljö?
@@ -33,7 +33,7 @@ M.h.a. bilden , kör ett use case (flödet)
 4. Backend broadcasts the message to all listeners on the websocket
 5. The chat window component is rerendered for all users in the React client
 
-Process: Vem gör vad? 
+Process: Vem gör vad?
 1. Create basic chat room without db and auth
 2. Add database
 3. Add users
@@ -46,3 +46,34 @@ Process: Vem gör vad?
 Diverse: Roller i applikationen, authentisiering, validering, felhantering, i18n, ...
 * In React everything is component based
 * ...
+
+
+## API:
+
+### /users
+Function | API | Body parameters | Returns
+---|---|---|---
+List all users        | *GET* /users              | -            | all users
+Get single user       | *GET* /users/:id          | -            | single user
+Add user              | *POST* /users             | new user         | status
+Update user           | *PUT* /users/:id          | new user         | status
+Remove user           | *DELETE* /users/:id       | -            | status
+
+### /rooms
+Function | API | Body parameters | Returns
+---|---|---|---
+List all rooms        | *GET* /rooms              | -            | all rooms
+Get single room       | *GET* /rooms/:id          | -            | single
+Get all messages in room | *GET* /rooms/:id/messages | -         | messages with roomid
+Add room              | *POST* /rooms             | new room         | status
+Update room           | *PUT* /rooms/:id          | new room         | status
+Remove room           | *DELETE* /rooms/:id       | -            | status
+
+### /messages
+Function | API | Body parameters | Returns
+---|---|---|---
+List all messages        | *GET* /messages              | -            | all messages
+Get single message       | *GET* /messages/:id          | -            | single
+Add message              | *POST* /messages             | new message         | status
+Update message           | *PUT* /messages/:id          | new message         | status
+Remove message           | *DELETE* /messages/:id       | -            | status
