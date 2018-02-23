@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
 import '../../../styles/chatwindow.css';
 import { 
     send,
@@ -12,18 +11,18 @@ class ChatWindow extends Component {
         super(props);
 
         this.state = {
-            content: '',
+            messages: [],
             input: '',
             user: 'Anonymous',
         };
     }
 
     componentDidMount() {
-        registerListener(({text, user}) => {
-            let toAdd = (user ? user : 'Anonymous') + ': ' + text;
-            this.setState({
-                content: this.state.content + toAdd + '\n',
-            });
+        registerListener(msg => {
+            console.log(JSON.stringify(msg));
+            let messages = this.state.messages;
+            messages.push(msg);
+            this.setState({messages});
         });
     }
 
@@ -34,17 +33,17 @@ class ChatWindow extends Component {
         // This is our "oo-model"
         send({
             text: this.state.input,
-            userId: null,
+            userId: this.state.user,
             roomId: this.props.room,
         });
     }
 
+    formatMessages() {
+        return this.state.messages.map(({text, userId}) => 
+            (userId ? userId : 'Anonymous') + ': ' + text).join('\n');
+    }
+
     render() {
-	const socket = socketIOClient(this.state.endpoint)
-	socket.on('change color', (color) => {
-      // setting the color of our button
-      document.body.style.backgroundColor = color
-    })
         return (
             <div>
                 <div className="row">
@@ -53,7 +52,7 @@ class ChatWindow extends Component {
                             className="chat-content" 
                             rows="20"
                             readOnly
-                            value={this.state.content}
+                            value={this.formatMessages()}
                             />
                     </div>
                 </div>
@@ -62,7 +61,7 @@ class ChatWindow extends Component {
                         <textarea 
                             className="chat-input" 
                             value={this.state.input}
-                            placeholder="Write a message... (what you type here won't actually be sent yet!)"
+                            placeholder="Write a message... "
                             autoFocus
                             onChange={e => {
                                 if (e.target.value !== '\n') {
