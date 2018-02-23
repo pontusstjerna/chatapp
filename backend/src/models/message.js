@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema(
     {
-        msg: {
+        text: {
             type: String,
             required: true,
         },
@@ -14,8 +14,7 @@ const MessageSchema = new Schema(
         },
         user: {
             type: Schema.ObjectId,
-            ref: 'User',
-            required: true
+            ref: 'User'
         },
         room: {
             type: Schema.ObjectId,

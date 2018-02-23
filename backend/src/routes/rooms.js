@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Room from '../models/room';
+import Message from '../models/message';
 
 export const rooms = () => {
     let router = new Router();
@@ -16,7 +17,19 @@ export const rooms = () => {
 
     router.get('/:id/messages', (req, res, next) => {
         let roomId = req.params.id;
-        console.log("*** NOT IMPL. GET messages in room");
+        Message.find({room: roomId})
+        .populate('user', '-password -__v')
+        .exec()
+        .then(docs => {
+            let resp = {
+                room: roomId,
+                messages: docs
+            };
+            res.json(resp);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
     });
 
     router.get('/:id', (req, res, next) => {
