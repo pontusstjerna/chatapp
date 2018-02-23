@@ -4,18 +4,18 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-//placeholders
 const index = require('./src/routes/index');
-//const authors = require('./src/routes/authors');
-//const books = require('./src/routes/books');
-
 
 import { users } from './src/routes/users';
 import { rooms } from './src/routes/rooms';
 import { messages } from './src/routes/messages';
 
+import socket from './src/socket/socket'; 
 
 const app = express();
+
+// Start socket!
+socket(app);
 
 app.use(logger('dev')); //logs all http requests
 app.use(bodyParser.json());
@@ -55,7 +55,7 @@ app.use(function(err, req, res, next) {
   res.json({"message": err.message, "documentation_url": "TDB"});
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 app.listen(port);
 console.log('===================================');
 console.log('Backend running on port: ' + port);

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-
+import socketIOClient from 'socket.io-client';
 import '../../../styles/chatwindow.css';
+import { 
+    send,
+    registerListener,
+} from '../../../data/socket';
 
 class ChatWindow extends Component {
 
@@ -10,19 +14,37 @@ class ChatWindow extends Component {
         this.state = {
             content: '',
             input: '',
-            user: 'Anonymous'
+            user: 'Anonymous',
         };
+    }
+
+    componentDidMount() {
+        registerListener(({text, user}) => {
+            let toAdd = (user ? user : 'Anonymous') + ': ' + text;
+            this.setState({
+                content: this.state.content + toAdd + '\n',
+            });
+        });
     }
 
     send() {
         console.log('Sent: ' + this.state.input);
-        let msg = this.state.user + ': ' + this.state.input;
-        this.setState({content: this.state.content + msg + '\n'});
         this.setState({input: ''});
-        // TODO: Send for real
+        
+        // This is our "oo-model"
+        send({
+            text: this.state.input,
+            userId: null,
+            roomId: this.props.room,
+        });
     }
 
     render() {
+	const socket = socketIOClient(this.state.endpoint)
+	socket.on('change color', (color) => {
+      // setting the color of our button
+      document.body.style.backgroundColor = color
+    })
         return (
             <div>
                 <div className="row">
