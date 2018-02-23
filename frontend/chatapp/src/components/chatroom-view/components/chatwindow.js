@@ -5,6 +5,8 @@ import {
     registerListener,
 } from '../../../data/socket';
 
+const room = '5a902f0f8ecd612550b3cc7b';
+
 class ChatWindow extends Component {
 
     constructor(props) {
@@ -13,7 +15,7 @@ class ChatWindow extends Component {
         this.state = {
             messages: [],
             input: '',
-            user: 'Anonymous',
+            user: null,
         };
     }
 
@@ -24,6 +26,12 @@ class ChatWindow extends Component {
             messages.push(msg);
             this.setState({messages});
         });
+
+        fetch('http://localhost:3001/rooms/' + room + '/messages', {
+            method: 'GET',        
+        }).then(result => 
+            result.json()
+        ).then(result => this.setState({messages: result.messages}));
     }
 
     send() {
@@ -33,8 +41,8 @@ class ChatWindow extends Component {
         // This is our "oo-model"
         send({
             text: this.state.input,
-            userId: this.state.user,
-            roomId: this.props.room,
+            user: this.state.user,
+            room: room,
         });
     }
 
