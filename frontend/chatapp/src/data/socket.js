@@ -1,8 +1,8 @@
 import socketIOClient from 'socket.io-client';
 import * as events from './events';
+import * as constants from './constants';
 
-const serverUrl = 'http://localhost:4000';
-const socket = socketIOClient(serverUrl);
+const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
 
 let listeners = [];
 

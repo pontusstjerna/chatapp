@@ -4,8 +4,7 @@ import {
     send,
     registerListener,
 } from '../../../data/socket';
-
-const room = '5a902f0f8ecd612550b3cc7b';
+import * as constants from '../../../data/constants';
 
 class ChatWindow extends Component {
 
@@ -27,7 +26,11 @@ class ChatWindow extends Component {
             this.setState({messages});
         });
 
-        fetch('http://localhost:3001/rooms/' + room + '/messages', {
+        this.getOldMessages();
+    }
+
+    getOldMessages() {
+        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms/${this.props.room._id}/messages`, {
             method: 'GET',        
         }).then(result => 
             result.json()
@@ -42,7 +45,7 @@ class ChatWindow extends Component {
         send({
             text: this.state.input,
             user: this.state.user,
-            room: room,
+            room: this.props.room._id,
         });
     }
 
