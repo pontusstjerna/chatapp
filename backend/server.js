@@ -3,6 +3,7 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const index = require('./src/routes/index');
 
@@ -33,6 +34,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Set up routes
+app.use(cors());
 app.use('/', index);
 //app.use('/authors', authors);
 //app.use('/books', books);
