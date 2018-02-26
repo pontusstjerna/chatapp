@@ -25,7 +25,7 @@ export default class ChatWindow extends Component {
             console.log(JSON.stringify(msg));
             let messages = this.state.messages;
             messages.push(msg);
-            this.setState({messages});
+            this.setState({messages: messages});
         });
 
         this.getOldMessages();
@@ -50,27 +50,6 @@ export default class ChatWindow extends Component {
             room: this.props.room._id,
         });
     }
-
-    /*
-        formatMessages() {
-            return this.state.messages.map(({text, userId}) =>
-            (userId ? userId : 'Anonymous') + ': ' + text).join('\n');
-        }
-
-        <img src={require("./placeholder-img/matt.jpg")} />
-    */
-
-
-
-
-    formatMessages() {
-        return (
-            <div>
-                { this.state.messages.map((msg) => (<MessageItem message={msg}/>)) }
-            </div>
-        );
-    }
-
 
     render() {
         return (
@@ -112,25 +91,30 @@ export default class ChatWindow extends Component {
         }
     }
 
-    const MessageList = (props) => (
-        <div>
-            { props.messageArr.map((msg) => (<MessageItem key={ msg._id } message={ msg }/>)) }
-        </div>
-    )
+    const MessageList = (props) => {
+        return (
+            <div>
+                { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
+            </div>
+        );
+    }
 
     /*
     *   Stateless component for displaying a message
     *   props:  message= message Object
     */
-    const MessageItem = (props) => (
-        <Comment>
-            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
-            <Comment.Content>
-                <Comment.Author as='a'>{ props.message.user ? props.message.user : 'Anonymous' }</Comment.Author>
-                <Comment.Metadata>
-                    <div>{ props.message.time_stamp }</div>
-                </Comment.Metadata>
-                <Comment.Text>{ props.message.text }</Comment.Text>
-            </Comment.Content>
-        </Comment>
-    )
+    const MessageItem = (props) => {
+
+        return (
+            <Comment>
+                <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+                <Comment.Content>
+                    <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
+                    <Comment.Metadata>
+                        <div>{ props.item.time_stamp }</div>
+                    </Comment.Metadata>
+                    <Comment.Text>{ props.item.text }</Comment.Text>
+                </Comment.Content>
+            </Comment>
+        );
+    }
