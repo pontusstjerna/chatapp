@@ -16,3 +16,14 @@ textarea {
     border-radius: 1em;
     background-color: lightskyblue;
 }
+
+.ui.segment{
+    width:650px;
+}
+
+.ui.scroll{
+    height: 500px;
+    width: 630px;
+	overflow-y: scroll;
+    overflow-x: hidden;
+}

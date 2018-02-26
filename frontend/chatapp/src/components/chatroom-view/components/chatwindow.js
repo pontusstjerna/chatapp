@@ -55,9 +55,9 @@ export default class ChatWindow extends Component {
         return (
             <div className="ui segment">
                 <div className="ui comments">
-
-                    <MessageList messageArr={ this.state.messages }/>
-
+		    <div className="ui scroll">
+                        <MessageList messageArr={ this.state.messages }/>
+		    </div>
                     <div>
                         <form className="ui reply form">
                             <div className="field">
@@ -80,13 +80,14 @@ export default class ChatWindow extends Component {
                             </div>
                             <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
                                 <i className="icon edit"></i> Send
-                                </div>
-                            </form>
-                        </div>
-
+                            </div>
+                        </form>
                     </div>
                 </div>
-            );
+             </div>
+ 	);
+
+
 
         }
     }
