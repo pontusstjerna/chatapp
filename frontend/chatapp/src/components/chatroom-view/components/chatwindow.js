@@ -54,68 +54,64 @@ export default class ChatWindow extends Component {
     render() {
         return (
             <div className="ui segment">
-                <div className="ui comments">
-		    <div className="ui scroll">
-                        <MessageList messageArr={ this.state.messages }/>
-		    </div>
-                    <div>
-                        <form className="ui reply form">
-                            <div className="field">
-                                <textarea
-                                    className="chat-input"
-                                    value={this.state.input}
-                                    placeholder="Write a message... "
-                                    autoFocus
-                                    onChange={e => {
-                                        if (e.target.value !== '\n') {
-                                            this.setState({input: e.target.value});
-                                        }
-                                    }}
-                                    onKeyPress={e => {
-                                        if (e.key === 'Enter') {
-                                            this.send();
-                                        }
-                                    }}
-                                    />
-                            </div>
-                            <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                                <i className="icon edit"></i> Send
-                            </div>
-                        </form>
+                
+                <MessageList messageArr={ this.state.messages }/>
+
+                <form className="ui reply form">
+                    <div className="field">
+                        <textarea
+                            className="chat-input"
+                            value={this.state.input}
+                            placeholder="Write a message... "
+                            autoFocus
+                            onChange={e => {
+                                if (e.target.value !== '\n') {
+                                    this.setState({input: e.target.value});
+                                }
+                            }}
+                            onKeyPress={e => {
+                                if (e.key === 'Enter') {
+                                    this.send();
+                                }
+                            }}
+                            />
                     </div>
-                </div>
-             </div>
- 	);
-
-
-
-        }
-    }
-
-    const MessageList = (props) => {
-        return (
-            <div>
-                { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
+                    <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
+                        <i className="icon edit"></i> Send
+                    </div>
+                </form>
             </div>
         );
     }
 
-    /*
-    *   Stateless component for displaying a message
-    *   props:  message= message Object
-    */
-    const MessageItem = (props) => {
+}
 
-        return (
-            <Comment>
-                <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
-                <Comment.Content>
-                    <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
-                    <Comment.Metadata>
-                        <div>{ props.item.time_stamp }</div>
-                    </Comment.Metadata>
-                    <Comment.Text>{ props.item.text }</Comment.Text>
-                </Comment.Content>
-            </Comment>
-        );
-    }
+const MessageList = (props) => {
+    return (
+        <div className="ui scroll">
+            <div className="ui comments">
+                { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
+            </div>
+        </div>
+    );
+}
+
+/*
+*   Stateless component for displaying a message
+*   props:  message= message Object
+*/
+const MessageItem = (props) => {
+
+    return (
+        <Comment>
+            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+            <Comment.Content>
+                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
+                <Comment.Metadata>
+                    <div>{ props.item.time_stamp }</div>
+                </Comment.Metadata>
+                <Comment.Text>{ props.item.text }</Comment.Text>
+            </Comment.Content>
+        </Comment>
+    );
+}

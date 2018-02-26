@@ -1,29 +1,6 @@
-textarea {
-    width: 100%;
-}
-
-.chat-content {
-    border-radius: 0.5em;
-    background-color: #EEEEEE;
-}
-
-.chat-input {
-    border-radius: 0.5em;
-}
-
-.btn-send {
-    margin: 1em;
-    border-radius: 1em;
-    background-color: lightskyblue;
-}
-
-.ui.segment{
-    width:650px;
-}
 
 .ui.scroll{
-    height: 500px;
-    width: 630px;
+    height:500px;
 	overflow-y: scroll;
     overflow-x: hidden;
 }
