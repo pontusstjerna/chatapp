@@ -49,6 +49,9 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
+if (!mongoURL) {
+  mongoURL = 'mongodb://127.0.0.1/chatdb';
+}
 console.log('Trying to connect to db: ' + mongoURL);
 
 mongoose.connect(mongoURL);
