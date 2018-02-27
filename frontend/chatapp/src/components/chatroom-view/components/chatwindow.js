@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import '../../../styles/chatwindow.css';
-import { 
+import {
     send,
     registerListener,
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
 
-class ChatWindow extends Component {
+import { Comment } from 'semantic-ui-react'
+
+export default class ChatWindow extends Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +25,7 @@ class ChatWindow extends Component {
             console.log(JSON.stringify(msg));
             let messages = this.state.messages;
             messages.push(msg);
-            this.setState({messages});
+            this.setState({messages: messages});
         });
 
         this.getOldMessages();
@@ -31,8 +33,8 @@ class ChatWindow extends Component {
 
     getOldMessages() {
         fetch(`http://${constants.backendURL}:${constants.restPort}/rooms/${this.props.room._id}/messages`, {
-            method: 'GET',        
-        }).then(result => 
+            method: 'GET',
+        }).then(result =>
             result.json()
         ).then(result => this.setState({messages: result.messages}));
     }
@@ -40,7 +42,7 @@ class ChatWindow extends Component {
     send() {
         console.log('Sent: ' + this.state.input);
         this.setState({input: ''});
-        
+
         // This is our "oo-model"
         send({
             text: this.state.input,
@@ -49,28 +51,16 @@ class ChatWindow extends Component {
         });
     }
 
-    formatMessages() {
-        return this.state.messages.map(({text, userId}) => 
-            (userId ? userId : 'Anonymous') + ': ' + text).join('\n');
-    }
-
     render() {
         return (
-            <div>
-                <div className="row">
-                    <div className="offset-md-1 col-md-10"> 
-                        <textarea 
-                            className="chat-content" 
-                            rows="20"
-                            readOnly
-                            value={this.formatMessages()}
-                            />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="offset-md-1 col-md-8">
-                        <textarea 
-                            className="chat-input" 
+            <div className="ui segment">
+                
+                <MessageList messageArr={ this.state.messages }/>
+
+                <form className="ui reply form">
+                    <div className="field">
+                        <textarea
+                            className="chat-input"
                             value={this.state.input}
                             placeholder="Write a message... "
                             autoFocus
@@ -80,17 +70,48 @@ class ChatWindow extends Component {
                                 }
                             }}
                             onKeyPress={e => {
-                                        if (e.key === 'Enter') {
-                                            this.send();
-                                        }
-                                    }}
+                                if (e.key === 'Enter') {
+                                    this.send();
+                                }
+                            }}
                             />
                     </div>
-                    <button onClick={() => this.send()} className="col-md-1 btn-send">Send</button>
-                </div>
+                    <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
+                        <i className="icon edit"></i> Send
+                    </div>
+                </form>
             </div>
         );
-    };
+    }
+
 }
 
-export default ChatWindow;
+const MessageList = (props) => {
+    return (
+        <div className="ui scroll">
+            <div className="ui comments">
+                { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
+            </div>
+        </div>
+    );
+}
+
+/*
+*   Stateless component for displaying a message
+*   props:  message= message Object
+*/
+const MessageItem = (props) => {
+
+    return (
+        <Comment>
+            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+            <Comment.Content>
+                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
+                <Comment.Metadata>
+                    <div>{ props.item.time_stamp }</div>
+                </Comment.Metadata>
+                <Comment.Text>{ props.item.text }</Comment.Text>
+            </Comment.Content>
+        </Comment>
+    );
+}

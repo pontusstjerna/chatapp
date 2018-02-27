@@ -9,7 +9,6 @@ import * as constants from '../../data/constants';
 import ChatroomView from '../chatroom-view';
 import CreateRoomView from './components/createRoomView';
 
-import '../../styles/chatrooms.css';
 
 class ChatroomsView extends Component {
 
@@ -42,7 +41,7 @@ class ChatroomsView extends Component {
 
     renderLinks() {
         return this.state.rooms.map(room => 
-            <NavLink key={room._id} className="chatroom-item" activeClassName="chatroom-active" to={'/chat/' + room.name}>
+            <NavLink className="item" key={room._id} to={'/chat/' + room.name}>
                 {room.name.replace(/_/g, ' ')}</NavLink>);
     }
 
@@ -71,17 +70,28 @@ class ChatroomsView extends Component {
     render() {
         return (
             <HashRouter>
-                <div className="row">
-                    <div className="offset-md-1 col-md-2 selector">
-                        <h3> Available chat rooms </h3>
-                        <hr/>
-                        {this.renderLinks()}
-                        <NavLink className="add-room" activeClassName="add-room-active" to="/chat/addRoom">Add room </NavLink>
-                    </div> 
-                    <div className="col-md-6 chatroom-content">
+                <div className="ui grid">
+                    <div className="four wide column">
+                        <div className="ui left vertical fluid menu">
+                            <div className="item">
+                                <div className="header">Rooms</div>
+                                <div className="menu">
+                                    {this.renderLinks()} 
+                                </div>
+                            </div>
+                            <div className="item">
+                                <div className="header">Manage</div>
+                                <div className="menu">
+                                    <NavLink className="item" to="/chat/addRoom">Add room </NavLink>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="twelve wide stretched column">
                         {this.renderRoutes()}
                         <Route path="/chat/addRoom" render={() => <CreateRoomView addRoom={room => this.addRoom(room)} />} />
                     </div>
+            
                 </div>
             </HashRouter>
         );
