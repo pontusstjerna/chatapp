@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set up openshift mongodb
 const mongoDB = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
 
-var connection_string = '127.0.0.1:27017/chatapp';
+var connection_string = 'mongodb://127.0.0.1:27017/chatapp';
 // if OPENSHIFT env variables are present, use the available connection info:
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
