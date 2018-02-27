@@ -24,7 +24,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Set up db connection
 //Set up default mongoose connection
-const mongoDB = 'mongodb://127.0.0.1/chatdb';
+//const mongoDB = 'mongodb://127.0.0.1/chatdb';
+
+// Set up openshift mongodb
+const mongoDB = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
