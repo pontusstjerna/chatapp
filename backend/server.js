@@ -29,9 +29,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set up openshift mongodb
 const mongoDB = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
 
-console.log('Trying to connect to db: ' + mongoDB);
+var connection_string = '127.0.0.1:27017/chatapp';
+// if OPENSHIFT env variables are present, use the available connection info:
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+  process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+  process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+  process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+  process.env.OPENSHIFT_APP_NAME;
+};
 
-mongoose.connect(mongoDB);
+console.log('Trying to connect to db: ' + connection_string);
+
+mongoose.connect(connection_string);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 //Get the default connection
