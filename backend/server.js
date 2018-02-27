@@ -28,6 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set up openshift mongodb
 const mongoDB = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+
+console.log('Trying to connect to db: ' + mongoDB);
+
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
