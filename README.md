@@ -38,6 +38,7 @@ Vilka use cases	har ni tänkt er?
 - [ ] Chat rooms with categories (internet forum inspired) - initially static
 - [ ] Show public User profile (some info about user? age, gender, mail, about etc...)
 - [ ] Show user statistics on profile page
+- [ ] Make mobilanpassad
 - [ ] private rooms, invitations?
 - [ ] direct messages
 - [ ] change language of the webapp
