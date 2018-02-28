@@ -1,8 +1,17 @@
 import { Router } from 'express';
 import User from '../models/user';
 
+const userctrl = require('../controllers/userctrl');
+//const checkAuth = require('../middleware/check-auth');
+
 export const users = () => {
     let router = new Router();
+
+    router.post('/register', userctrl.userRegister);
+
+    router.post('/login', userctrl.userLogin);
+
+    router.post('/logout', userctrl.userLogout);
 
     // Get all users
     router.get('/', (req, res, next) => {
