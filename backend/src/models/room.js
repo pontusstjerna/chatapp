@@ -9,6 +9,10 @@ class RoomSchema extends Mongoose.Schema {
                 unique: true,
                 max: 50,
                 min: 3
+            },
+            description: {
+                type: String,
+                default: ""
             }
         });
     }
