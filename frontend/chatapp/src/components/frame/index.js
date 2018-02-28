@@ -8,9 +8,10 @@ import {
 import HomeView from '../home-view';
 import ChatroomsView from '../chatrooms-view';
 import AboutView from '../about-view';
+import RegisterView from '../register-view';
 import Footer from '../footer';
 // This should import the default bootstrap css stuff
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/main.css';
 import '../../styles/frame.css';
 
@@ -23,7 +24,7 @@ class Frame extends Component {
 
         // This view's local state, aka all "global variables" should be stored here
         this.state = {
-            
+
         };
     }
 
@@ -39,18 +40,19 @@ class Frame extends Component {
                     <hr/>
                     <div>
                         <NavLink className="menu-item" exact to="/">Home</NavLink>
-                        <NavLink className="menu-item" to="/chat">Chat!</NavLink>        
+                        <NavLink className="menu-item" to="/chat">Chat!</NavLink>
                         <NavLink className="menu-item" to="/about">About</NavLink>
                         <NavLink className="menu-item" to="/register">Register</NavLink>
                     </div>
                     { /* PUT ALL CONTENT HERE */}
-                    <div className="content"> 
+                    <div className="content">
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
+                        <Route path="/register" component={RegisterView} />
                     </div>
                 <Footer />
-                </div>                
+                </div>
             </HashRouter>
         );
     }
