@@ -29,7 +29,8 @@ Vilka use cases	har ni tänkt er?
 - [x] Switch between different chat rooms
 - [x] Create new room (if logged in)
 - [ ] User registration
-- [ ] User login/logout , (Authentication with OAuth2?)
+- [ ] User login/logout , (Authenticationwith OAuth2?)
+- [ ] See time since posted for messages 
 - [ ] User settings page (update profile)
 - [ ] Upload image for avatar
 - [ ] Generate default avatars
