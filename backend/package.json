@@ -1,6 +1,11 @@
 {
   "name": "RESTbackend",
   "version": "1.0.0",
+  "babel": {
+    "env": {
+      "JWT_KEY": "secret"
+    }
+  },
   "private": true,
   "scripts": {
     "startOld": "nodemon ./server.js",

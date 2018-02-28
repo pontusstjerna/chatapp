@@ -2,9 +2,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from '../models/user';
 
+//placeholder
+const JWT_KEY = "somesecrethere";
 
 export function userRegister(req, res, next) {
-    console.log("###userRegister")
     User.find({nickname: req.body.nickname})
         .then(user => {
             if (user.length >= 1) {
@@ -39,11 +40,51 @@ export function userRegister(req, res, next) {
                 })
             }
         })
-    //res.json({"NOT_IMPLEMENTED": "userRegister"});
 };
 
 export function userLogin(req, res, next) {
-    res.json({"NOT_IMPLEMENTED": "userLogin"});
+    //console.log("###user login: secret:" + process.env.JWT_KEY);
+    User.find({ nickname: req.body.nickname })
+        .then(user => {
+            if (user.length < 1) {
+                return res.status(401).json({
+                    message: "Auth failed"
+                });
+            }
+            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+                if (err) {
+                    return res.status(401).json({
+                        message: "Auth failed"
+                    });
+                }
+                if (result) {
+                    const token = jwt.sign(
+                        {
+                            nickname: user[0].nickname,
+                            userId: user[0]._id
+                        },
+                        //process.env.JWT_KEY,
+                        JWT_KEY,
+                        {
+                            expiresIn: "1h"
+                        }
+                    );
+                    return res.status(200).json({
+                        message: "Auth successful",
+                        token: token
+                    });
+                }
+                res.status(401).json({
+                    message: "Auth failed"
+                });
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
 };
 
 export function userLogout(req, res, next) {
