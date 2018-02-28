@@ -27,17 +27,18 @@ Vilka use cases	har ni tänkt er?
 ## Usecases updated:  (sould be at minimun 10)
 - [x] Send and Receive messages in Real-time in chat rooms.
 - [x] Switch between different chat rooms
-- [x] Create new room
+- [x] Create new room (if logged in)
 - [ ] User registration
 - [ ] User login/logout , (Authentication with OAuth2?)
-- [ ] User settings page (change username?, change avatar?, about page?)
+- [ ] User settings page (update profile)
 - [ ] Upload image for avatar
+- [ ] Generate default avatars
+- [ ] filter out bad language
 - [ ] Chat rooms with categories (internet forum inspired) - initially static
-- [ ] Show User profile (some info about user? age, gender, mail, about etc...)
-- [ ] Update profile
+- [ ] Show public User profile (some info about user? age, gender, mail, about etc...)
+- [ ] Show user statistics on profile page
 - [ ] private rooms, invitations?
 - [ ] direct messages
-- [ ] filter out bad language
 - [ ] change language of the webapp
 
 
