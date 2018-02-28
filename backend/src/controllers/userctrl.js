@@ -4,6 +4,7 @@ import User from '../models/user';
 
 
 export function userRegister(req, res, next) {
+    console.log("###userRegister")
     User.find({nickname: req.body.nickname})
         .then(user => {
             if (user.length >= 1) {
@@ -13,8 +14,8 @@ export function userRegister(req, res, next) {
             } else {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
-                        return res.status.(500).json({
-                            error: err
+                        return res.status(500).json({
+                            error: "A," + err
                         })
                     } else {
                         let user = new User({
@@ -22,11 +23,17 @@ export function userRegister(req, res, next) {
                             password: hash
                         });
                         user.save()
-                            .then(res => {
-
+                            .then(result => {
+                                console.log(result);
+                                res.status(201).json({
+                                    message: "User created successfully"
+                                });
                             })
                             .catch(err => {
-
+                                console.log(err);
+                                res.status(500).json({
+                                  error: "B," + err
+                                });
                             })
                     }
                 })
