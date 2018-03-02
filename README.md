@@ -34,7 +34,7 @@ Vilka use cases	har ni tänkt er?
 - [ ] User settings page (update profile)
 - [ ] Upload image for avatar
 - [ ] Generate default avatars
-- [ ] filter out bad language
+- [x] filter out bad language
 - [ ] Chat rooms with categories (internet forum inspired) - initially static
 - [ ] Show public User profile (some info about user? age, gender, mail, about etc...)
 - [ ] Show user statistics on profile page
