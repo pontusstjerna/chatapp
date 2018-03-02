@@ -5,11 +5,9 @@ import {
     registerListener,
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
-
 import { Comment } from 'semantic-ui-react'
 
 export default class ChatWindow extends Component {
-
     constructor(props) {
         super(props);
 
@@ -96,12 +94,55 @@ const MessageList = (props) => {
     );
 }
 
+//reformats the timestamp
+function formatTimestamp(time){
+    //TODO: make the timestamp look better
+}
+
+//computes time last posted by using a timestamp
+function lastPosted(time){
+    //current date
+    var date = new Date();
+
+    //total seconds in date when posted
+    var totalSec = date.getTime() / 1000;
+    //current total seconds in date
+    var currentTotalSec = new Date(time).getTime() / 1000;
+    //seconds between last and current post
+    var diffSec = Math.abs(currentTotalSec - totalSec);
+
+    //TODO: add month
+    var d = Math.floor(diffSec / 86400);
+    diffSec = diffSec % 86400;
+    var h = Math.floor(diffSec / 3600);
+    diffSec = diffSec % 3600;
+    var m = Math.floor(diffSec / 60);
+    diffSec = Math.floor(diffSec % 60);
+    var s = diffSec
+    diffSec = diffSec % 31556926;
+
+    if(d!=0){
+        return d.toString() + " days ago";
+    }
+
+    else if(h!=0){
+        return h.toString() + " hours ago";
+    }
+
+    else if(m!=0){
+        return m.toString() + " minutes ago";
+    }
+
+    else{
+        return s + " seconds ago";
+    }
+}
+
 /*
 *   Stateless component for displaying a message
 *   props:  message= message Object
 */
 const MessageItem = (props) => {
-
     return (
         <Comment>
             <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
@@ -109,6 +150,10 @@ const MessageItem = (props) => {
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
                 <Comment.Metadata>
                     <div>{ props.item.time_stamp }</div>
+                </Comment.Metadata>
+
+                <Comment.Metadata>
+                    { lastPosted(props.item.time_stamp) }
                 </Comment.Metadata>
                 <Comment.Text>{ props.item.text }</Comment.Text>
             </Comment.Content>
