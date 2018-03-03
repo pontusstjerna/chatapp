@@ -94,9 +94,26 @@ const MessageList = (props) => {
     );
 }
 
-//reformats the timestamp
+//append a leading zero to strings with length of one
+function singleDigitPrepend(data){
+    if(data.toString().length == 1){
+        data = "0" + data
+    }
+    return data
+}
+
+//reformats the timestamp to yy-mm-dd hh:mm:ss
 function formatTimestamp(time){
-    //TODO: make the timestamp look better
+    var dateObj = new Date(time);
+    var y = dateObj.getFullYear();
+    var m = singleDigitPrepend(dateObj.getMonth() + 1);
+    var d = singleDigitPrepend(dateObj.getDay());
+
+    var hour = singleDigitPrepend(dateObj.getHours());
+    var min = singleDigitPrepend(dateObj.getMinutes());
+    var sec = singleDigitPrepend(dateObj.getSeconds());
+
+    return "Posted: " + y + "-" + m + "-" + d + " " + hour + ":" + min + ":" + sec;
 }
 
 //computes time last posted by using a timestamp
@@ -121,15 +138,15 @@ function lastPosted(time){
     var s = diffSec
     diffSec = diffSec % 31556926;
 
-    if(d!=0){
+    if(d !== 0){
         return d.toString() + " days ago";
     }
 
-    else if(h!=0){
+    else if(h !== 0){
         return h.toString() + " hours ago";
     }
 
-    else if(m!=0){
+    else if(m !== 0){
         return m.toString() + " minutes ago";
     }
 
@@ -149,7 +166,7 @@ const MessageItem = (props) => {
             <Comment.Content>
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
                 <Comment.Metadata>
-                    <div>{ props.item.time_stamp }</div>
+                    <div>{ formatTimestamp(props.item.time_stamp) }</div>
                 </Comment.Metadata>
 
                 <Comment.Metadata>
