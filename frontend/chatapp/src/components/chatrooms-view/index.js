@@ -5,6 +5,11 @@ import {
     HashRouter
   } from 'react-router-dom';
 import * as constants from '../../data/constants';
+import {
+    socket,
+    getRooms,
+    registerRooms,
+} from '../../data/socket';
 
 import ChatroomView from '../chatroom-view';
 import CreateRoomView from './components/createRoomView';
@@ -21,22 +26,14 @@ class ChatroomsView extends Component {
     }
 
     componentDidMount() {
+        registerRooms((rooms) => {
+            this.setState({rooms});
+        });
         this.getAllRooms();
     }
 
     getAllRooms() {
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms`).then(result => {
-            if (result.ok) {
-                return result.json();
-            } else {
-                alert('Unable to fetch any rooms! :( Status: ' + result.status);
-                return null;
-            }
-        }).then(rooms => {
-            if (rooms) {
-                this.setState({rooms});
-            }
-        });
+        getRooms();
     }
 
     renderLinks() {

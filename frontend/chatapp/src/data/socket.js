@@ -2,21 +2,22 @@ import socketIOClient from 'socket.io-client';
 import * as events from './events';
 import * as constants from './constants';
 
-const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
-
-let listeners = [];
-
-socket.on(events.RECEIVE_MSG, msg => {
-    for(let i = 0; i < listeners.length; i++) {
-        listeners[i](JSON.parse(msg));
-    }
-});
+export const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
 
 export const send = (msg) => {
-    socket.emit('change color','red');   
     socket.emit(events.SEND_MSG, JSON.stringify(msg));
 }
 
-export const registerListener = (listener) => {
-    listeners.push(listener);
+export const getRooms = () => {
+    socket.emit(events.GET_ROOMS, null);
+}
+
+export const registerRooms = (listener) => {
+    socket.on(events.GET_ROOMS, rooms => {
+        listener(JSON.parse(rooms));
+    })
+}
+
+export const getMessages = (roomsId) => {
+    socket.emit(events.GET_MESSAGES, roomId);
 }

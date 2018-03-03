@@ -22,10 +22,6 @@ app.use(logger('dev')); //logs all http requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//Set up db connection
-//Set up default mongoose connection
-//const mongoDB = 'mongodb://127.0.0.1/chatdb';
-
 var mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
 mongoURLLabel = "";
 
@@ -86,7 +82,7 @@ app.use(function(err, req, res, next) {
   res.json({"message": err.message, "documentation_url": "TDB"});
 });
 
-const port = process.env.PORT || 3001
-app.listen(port);
-console.log('===================================');
-console.log('Backend running on port: ' + port);
+//const port = process.env.PORT || 3001
+//app.listen(port);
+//console.log('===================================');
+//console.log('Backend running on port: ' + port);

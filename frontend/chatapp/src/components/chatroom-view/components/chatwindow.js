@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../../styles/chatwindow.css';
 import {
     send,
-    registerListener,
+    socket,
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
 
@@ -21,13 +21,15 @@ export default class ChatWindow extends Component {
     }
 
     componentDidMount() {
-        registerListener(msg => {
-            console.log(JSON.stringify(msg));
-            let messages = this.state.messages;
-            messages.push(msg);
-            this.setState({messages: messages});
-        });
-
+        // registerRooms((room) => {
+        //     console.log(msg);
+        //     msg = JSON.parse(msg);
+        //     let messages = this.state.messages;
+        //     if (msg.room === this.props.room._id) {
+        //         messages.push(msg);
+        //         this.setState({messages: messages});
+        //     }
+        // });
         this.getOldMessages();
     }
 
