@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import '../../../styles/chatwindow.css';
 import {
     send,
-    socket,
+    getMessages,
+    registerMessages,
+    registerReceiveMsg,
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
 
@@ -21,24 +23,17 @@ export default class ChatWindow extends Component {
     }
 
     componentDidMount() {
-        // registerRooms((room) => {
-        //     console.log(msg);
-        //     msg = JSON.parse(msg);
-        //     let messages = this.state.messages;
-        //     if (msg.room === this.props.room._id) {
-        //         messages.push(msg);
-        //         this.setState({messages: messages});
-        //     }
-        // });
-        this.getOldMessages();
-    }
+        registerMessages(messages => {
+            this.setState({messages: messages.messages});
+        });
 
-    getOldMessages() {
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms/${this.props.room._id}/messages`, {
-            method: 'GET',
-        }).then(result =>
-            result.json()
-        ).then(result => this.setState({messages: result.messages}));
+        registerReceiveMsg(message => {
+            let messages = this.state.messages;
+            messages.push(message);
+            this.setState({messages});
+        })
+
+        getMessages(this.props.room._id);
     }
 
     send() {
@@ -105,7 +100,7 @@ const MessageList = (props) => {
 const MessageItem = (props) => {
 
     return (
-        <Comment>
+        <Comment key={ props.item._id }>
             <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
             <Comment.Content>
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>

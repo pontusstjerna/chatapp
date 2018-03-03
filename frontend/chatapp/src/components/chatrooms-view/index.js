@@ -6,9 +6,9 @@ import {
   } from 'react-router-dom';
 import * as constants from '../../data/constants';
 import {
-    socket,
     getRooms,
     registerRooms,
+    registerNewRoom,
 } from '../../data/socket';
 
 import ChatroomView from '../chatroom-view';
@@ -29,6 +29,9 @@ class ChatroomsView extends Component {
         registerRooms((rooms) => {
             this.setState({rooms});
         });
+        registerNewRoom((success) => {
+            this.getAllRooms();
+        });
         this.getAllRooms();
     }
 
@@ -45,23 +48,6 @@ class ChatroomsView extends Component {
     renderRoutes() {
         return this.state.rooms.map(room => 
             <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatroomView room={room} />} />);
-    }
-
-    addRoom(room) {
-        // Todo!
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-            },
-            body: JSON.stringify(room),
-        }).then(result => {
-            if (result.ok) {
-                this.getAllRooms();
-            } else {
-                alert('Unable to create room ' + room.name);
-            }
-        });
     }
 
     render() {

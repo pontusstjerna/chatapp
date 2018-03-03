@@ -19,8 +19,8 @@ export default (app) => {
     io.on(events.CONNECTION, socket => {
         console.log('New user connected!');
     
-        rooms(socket);
-        messages(socket);
+        rooms(io, socket);
+        messages(io, socket);
 
         return socket;
     })
