@@ -4,6 +4,7 @@ import { Route, NavLink, HashRouter } from 'react-router-dom';
 import HomeView from '../home-view';
 import ChatroomsView from '../chatrooms-view';
 import AboutView from '../about-view';
+import SettingsView from '../settings-view';
 import RegisterView from '../register-view';
 import Footer from '../footer';
 
@@ -29,6 +30,7 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>        
                             <NavLink className="item" to="/about">About</NavLink>
+                            <NavLink className="item" to="/settings">Settings</NavLink>
                             <NavLink className="item right" to="/register">Register</NavLink>
                     </div>
 
@@ -38,6 +40,7 @@ export default class Frame extends Component {
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
+                        <Route path="/settings" component={SettingsView} />
                         <Route path="/register" component={RegisterView} />
                     </div>
                     
