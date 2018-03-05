@@ -53,10 +53,21 @@ export const registerReceiveMsg = (listener) => {
 export const createUser = (user) => {
     console.log('Emitting ' + JSON.stringify(user));
     socket.emit(events.USER_REGISTER, user);
-} 
+}
 
 export const registerCreateUser = (listener) => {
     socket.on(events.USER_REGISTER, result => {
+        listener(result);
+    });
+}
+
+export const loginUser = (user) => {
+    console.log('Emitting USER_LOGIN: ' + JSON.stringify(user));
+    socket.emit(events.USER_LOGIN, user);
+}
+
+export const registerLoginUser = (listener) => {
+    socket.on(events.USER_LOGIN, result => {
         listener(result);
     });
 }

@@ -2,10 +2,8 @@ import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
 import {
   createUser,
-  registerCreateUser,
+  registerCreateUser
 } from '../../data/socket';
-
-const baseURL = 'http://localhost:3000/users'
 
 class RegisterView extends Component {
 

@@ -8,8 +8,8 @@ import {
     ERROR,
 } from '../socket/events';
 
-const userctrl = require('../controllers/userctrl');
-//const checkAuth = require('../middleware/check-auth');
+//placeholder
+const JWT_KEY = "somesecrethere";
 
 export default (socket) => {
     socket.on(USER_REGISTER, ({nickname, password}) => {
@@ -29,7 +29,7 @@ export default (socket) => {
                             status: 500,
                             msg: err
                         });
-                        
+
                     } else {
                         let user = new User({
                             nickname: nickname,
@@ -52,8 +52,61 @@ export default (socket) => {
                     }
                 });
             }
-        }); 
+        });
     });
 
-    // TODO
+    socket.on(USER_LOGIN, ({nickname, password}) => {
+        console.log('Logging in : ' + nickname);
+
+        User.find({ nickname: nickname })
+            .then(user => {
+                if (user.length < 1) {
+                    socket.emit(ERROR, {
+                        status: 403,
+                        msg: 'Nickname or password is incorrect.'
+                    });
+                    return;
+                }
+                bcrypt.compare(password, user[0].password, (err, result) => {
+                    if (err) {
+                        socket.emit(ERROR, {
+                            status: 401,
+                            msg: "Auth failed"
+                        });
+                        return;
+                    }
+                    if (result) {
+                        const token = jwt.sign(
+                            {
+                                nickname: user[0].nickname,
+                                userId: user[0]._id
+                            },
+                            //process.env.JWT_KEY,
+                            JWT_KEY,
+                            {
+                                expiresIn: "1h"
+                            }
+                        );
+                        socket.emit(USER_LOGIN, {
+                            status: 200,
+                            msg: "User has logged in.",
+                            token: token
+                        });
+                        return;
+                    }
+                    socket.emit(ERROR, {
+                        status: 401,
+                        msg: "Auth failed"
+                    });
+                    return;
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                socket.emit(ERROR, {
+                    status: 500,
+                    msg: err
+                });
+            });
+    });
 }
