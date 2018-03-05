@@ -2,8 +2,8 @@ import http from 'http';
 import socketIO from 'socket.io';
 import * as events from './events';
 import Message from '../models/message';
-import rooms from '../routes/rooms2';
-import messages from '../routes/messages2';
+import rooms from '../routes/rooms';
+import messages from '../routes/messages';
 
 const port = 4000;
 
