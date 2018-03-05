@@ -4,6 +4,7 @@ import * as events from './events';
 import Message from '../models/message';
 import rooms from '../routes/rooms';
 import messages from '../routes/messages';
+import users from '../routes/users';
 
 const port = 4000;
 
@@ -28,6 +29,7 @@ export default (app) => {
     
         rooms(io, socket);
         messages(io, socket);
+        users(socket);
 
         return socket;
     })
