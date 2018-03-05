@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
-
-const baseURL = 'http://localhost:3000/users'
+import {
+  createUser,
+  registerCreateUser
+} from '../../data/socket';
 
 class RegisterView extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +22,13 @@ class RegisterView extends Component {
     this.handlePswdChange = this.handlePswdChange.bind(this);
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.create = this.create.bind(this);
+  }
+
+  componentDidMount() {
+    registerCreateUser((result) => {
+      alert('User created!');
+      console.log('User created');
+    })
   }
 
   handleNickChange(event) {
@@ -40,28 +49,13 @@ class RegisterView extends Component {
   handleSubmit(event) {
     if (this.state.passwordConf) {
       console.log('A user was submitted: ' + this.state.nickname);
-      this.create();
+      createUser({nickname: this.state.nickname, password: this.state.password});
     } else {
       this.setState({errorMsg: "Passwords must match"});
       this.setState({formError: true})
     }
     event.preventDefault();
   }
-
-  create() {
-    fetch(baseURL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        nickname: this.state.nickname,
-        password: this.state.password
-      })
-    })
-  }
-
 
   render() {
     return (

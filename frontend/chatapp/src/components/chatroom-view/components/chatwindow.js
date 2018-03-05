@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import '../../../styles/chatwindow.css';
 import {
     send,
-    registerListener,
+    getMessages,
+    registerMessages,
+    registerReceiveMsg,
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
 import { Comment } from 'semantic-ui-react'
@@ -20,22 +22,17 @@ export default class ChatWindow extends Component {
     }
 
     componentDidMount() {
-        registerListener(msg => {
-            console.log(JSON.stringify(msg));
-            let messages = this.state.messages;
-            messages.push(msg);
-            this.setState({messages: messages});
+        registerMessages(messages => {
+            this.setState({messages: messages.messages});
         });
 
-        this.getOldMessages();
-    }
+        registerReceiveMsg(message => {
+            let messages = this.state.messages;
+            messages.push(message);
+            this.setState({messages});
+        })
 
-    getOldMessages() {
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms/${this.props.room._id}/messages`, {
-            method: 'GET',
-        }).then(result =>
-            result.json()
-        ).then(result => this.setState({messages: result.messages}));
+        getMessages(this.props.room._id);
     }
 
     send() {
@@ -129,7 +126,7 @@ function lastPosted(time){
 */
 const MessageItem = (props) => {
     return (
-        <Comment>
+        <Comment key={ props.item._id }>
             <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
             <Comment.Content>
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>

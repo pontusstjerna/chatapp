@@ -1,80 +1,29 @@
-import { Router } from 'express';
 import Room from '../models/room';
-import Message from '../models/message';
+import {
+    GET_ROOMS,
+    CREATE_ROOM,
+    ERROR,
+} from '../socket/events';
 
-export const rooms = () => {
-    let router = new Router();
+export default (io, socket) => {
 
-    router.get('/', (req, res, next) => {
+    socket.on(GET_ROOMS, () => {
         Room.find()
         .then(docs => {
-            res.json(docs);
+            socket.emit(GET_ROOMS, JSON.stringify(docs));
         })
         .catch(err => {
-            res.status(500).json(err);
-        })
+            socket.emit(ERROR, 'Unable to fetch any rooms!');
+        });
     });
 
-    router.get('/:id/messages', (req, res, next) => {
-        let roomId = req.params.id;
-        Message.find({room: roomId})
-        .populate('user', '-password -__v')
-        .exec()
-        .then(docs => {
-            let resp = {
-                room: roomId,
-                messages: docs
-            };
-            res.json(resp);
+    socket.on(CREATE_ROOM, room => {
+        let newRoom = new Room(JSON.parse(room));
+        newRoom.save().then(doc => {
+            io.sockets.emit(CREATE_ROOM, JSON.stringify(doc));
         })
         .catch(err => {
-            res.status(500).json(err);
+            socket.emit(ERROR, 'Unable to create room: ' + err);
         })
-    });
-
-    router.get('/:id', (req, res, next) => {
-        let roomId = req.params.id;
-        Room.findOne(id)
-        .then(doc => {
-            res.json(doc);
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        })
-    });
-
-    router.post('/', (req, res, next) => {
-        let newRoom = new Room(req.body);
-        newRoom.save()
-        .then(doc => {
-            res.json(doc);
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        })
-    });
-
-    router.put('/:id', (req, res, next) => {
-        let roomId = req.params.id;
-        Room.findByIdAndUpdate(roomId, { $set: req.body}, { new: true })
-        .then(doc => {
-            res.json(doc);
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        })
-    });
-
-    router.delete('/:id', (req, res, next) => {
-        let roomId = req.params.id;
-        Room.findByIdAndRemove(roomId)
-        .then(doc => {
-            res.json(doc);
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        })
-    });
-
-    return router;
+    })
 }

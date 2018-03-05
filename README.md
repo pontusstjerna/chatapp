@@ -48,6 +48,8 @@ Vilka use cases	har ni tänkt er?
 Rita en bild på den övergripande arkitekturen/designen
 * See picture.
 
+
+
 M.h.a. bilden , kör ett use case (flödet)
 1. User writes message in React client
 2. User sends message through websocket API
