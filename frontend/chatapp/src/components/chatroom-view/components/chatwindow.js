@@ -119,8 +119,8 @@ function formatTimestamp(time){
 
 //computes time since last post by using a timestamp
 function lastPosted(time){
-    var ta = require('time-ago')
-	return ta.ago(time);
+    var ta = require('time-ago');
+    return ta.ago(time);
 }
 
 /*
