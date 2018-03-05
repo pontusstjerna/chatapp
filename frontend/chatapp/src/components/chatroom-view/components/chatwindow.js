@@ -7,6 +7,7 @@ import {
 import * as constants from '../../../data/constants';
 import { Comment } from 'semantic-ui-react'
 
+
 export default class ChatWindow extends Component {
     constructor(props) {
         super(props);
@@ -107,7 +108,7 @@ function formatTimestamp(time){
     var dateObj = new Date(time);
     var y = dateObj.getFullYear();
     var m = singleDigitPrepend(dateObj.getMonth() + 1);
-    var d = singleDigitPrepend(dateObj.getDay());
+    var d = singleDigitPrepend(dateObj.getDate());
 
     var hour = singleDigitPrepend(dateObj.getHours());
     var min = singleDigitPrepend(dateObj.getMinutes());
@@ -118,48 +119,8 @@ function formatTimestamp(time){
 
 //computes time since last post by using a timestamp
 function lastPosted(time){
-    //date when posted
-    var oldDate = new Date(time);
-    //current date
-    var currDate = new Date();
-
-    var diffYear = currDate.getFullYear() - oldDate.getFullYear();
-    var diffMonth = currDate.getMonth() - oldDate.getMonth();
-    var diffDay = currDate.getDay() - oldDate.getDay();
-
-    //total seconds in date when posted
-    var totalSec = oldDate.getTime() / 1000;
-    //current total seconds in date
-    var currentTotalSec = currDate.getTime() / 1000;
-    //seconds between last and current post
-    var diffSec = Math.abs(currentTotalSec - totalSec);
-
-    //unit conversions using remaining seconds
-    var h = Math.floor(diffSec / 3600);
-    diffSec = diffSec % 3600;
-    var m = Math.floor(diffSec / 60);
-    diffSec = Math.floor(diffSec % 60);
-    var s = diffSec
-    diffSec = diffSec % 31556926;
-
-    if(diffYear !== 0){
-        return diffYear.toString() + " years ago"
-    }
-    else if(diffMonth !== 0){
-        return diffMonth.toString() + " months ago"
-    }
-    else if(diffDay !== 0){
-        return diffDay.toString() + " days ago";
-    }
-    else if(h !== 0){
-        return h.toString() + " hours ago";
-    }
-    else if(m !== 0){
-        return m.toString() + " minutes ago";
-    }
-    else{
-        return s + " seconds ago";
-    }
+    var ta = require('time-ago')
+	return ta.ago(time);
 }
 
 /*
