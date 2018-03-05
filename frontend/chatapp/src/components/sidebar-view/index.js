@@ -11,11 +11,11 @@ import {
     registerNewRoom,
 } from '../../data/socket';
 
-import ChatroomView from '../chatroom-view';
+import ChatWindowView from '../chat-window-view';
 import CreateRoomView from './components/createRoomView';
 
 
-class ChatroomsView extends Component {
+class SidebarView extends Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ class ChatroomsView extends Component {
 
     renderRoutes() {
         return this.state.rooms.map(room => 
-            <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatroomView room={room} />} />);
+            <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatWindowView room={room} />} />);
     }
 
     render() {
@@ -81,4 +81,4 @@ class ChatroomsView extends Component {
     }
 }
 
-export default ChatroomsView;
+export default SidebarView;

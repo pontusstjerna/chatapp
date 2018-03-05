@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import '../../../styles/chatwindow.css';
+import Identicon from 'identicon.js';
+import '../../styles/chatwindow.css';
 import {
     send,
     getMessages,
     registerMessages,
     registerReceiveMsg,
-} from '../../../data/socket';
-import * as constants from '../../../data/constants';
+} from '../../data/socket';
+import * as constants from '../../data/constants';
 import { Comment } from 'semantic-ui-react'
 
 
-export default class ChatWindow extends Component {
+export default class ChatWindowView extends Component {
     constructor(props) {
         super(props);
 
@@ -49,34 +50,38 @@ export default class ChatWindow extends Component {
 
     render() {
         return (
-            <div className="ui segment">
-                
-                <MessageList messageArr={ this.state.messages }/>
+            <div>
+                <h2>{"#" + this.props.room.name.replace(/_/g, ' ')}</h2>
+                <p>{this.props.room.description ? this.props.room.description : 'Public chat room'}</p>
+                    <div className="ui segment">
+                    
+                    <MessageList messageArr={ this.state.messages }/>
 
-                <form className="ui reply form">
-                    <div className="field">
-                        <textarea
-                            className="chat-input"
-                            value={this.state.input}
-                            placeholder="Write a message... "
-                            autoFocus
-                            onChange={e => {
-                                if (e.target.value !== '\n') {
-                                    this.setState({input: e.target.value});
-                                }
-                            }}
-                            onKeyPress={e => {
-                                if (e.key === 'Enter') {
-                                    this.send();
-                                }
-                            }}
-                            />
-                    </div>
-                    <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                        <i className="icon edit"></i> Send
-                    </div>
-                </form>
-            </div>
+                    <form className="ui reply form">
+                        <div className="field">
+                            <textarea
+                                className="chat-input"
+                                value={this.state.input}
+                                placeholder="Write a message... "
+                                autoFocus
+                                onChange={e => {
+                                    if (e.target.value !== '\n') {
+                                        this.setState({input: e.target.value});
+                                    }
+                                }}
+                                onKeyPress={e => {
+                                    if (e.key === 'Enter') {
+                                        this.send();
+                                    }
+                                }}
+                                />
+                        </div>
+                        <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
+                            <i className="icon edit"></i> Send
+                        </div>
+                    </form>
+                </div>
+            </div>  
         );
     }
 
@@ -120,6 +125,11 @@ function lastPosted(time){
     return ta.ago(time);
 }
 
+function generateIcon(user) {
+    let hashFromUser = user? user._id : 'oiaw590uif0u934598uerue489tiuh';
+    return `data:image/png;base64,${new Identicon(hashFromUser)}`;
+}
+
 /*
 *   Stateless component for displaying a message
 *   props:  message= message Object
@@ -127,7 +137,7 @@ function lastPosted(time){
 const MessageItem = (props) => {
     return (
         <Comment key={ props.item._id }>
-            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+            <Comment.Avatar src={generateIcon(props.item.user)} />
             <Comment.Content>
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
                 <Comment.Metadata>
