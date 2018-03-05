@@ -4,6 +4,7 @@ import { Route, NavLink, HashRouter } from 'react-router-dom';
 import HomeView from '../home-view';
 import ChatroomsView from '../chatrooms-view';
 import AboutView from '../about-view';
+import RegisterView from '../register-view';
 import Footer from '../footer';
 
 export default class Frame extends Component {
@@ -14,7 +15,7 @@ export default class Frame extends Component {
 
         // This view's local state, aka all "global variables" should be stored here
         this.state = {
-            
+
         };
     }
 
@@ -37,6 +38,7 @@ export default class Frame extends Component {
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
+                        <Route path="/register" component={RegisterView} />
                     </div>
                     
                     <Footer/>

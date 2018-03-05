@@ -23,6 +23,28 @@ Vilka use cases	har ni tänkt er?
 * not use any profanity
 * maybe change language of the webapp
 
+---------
+## Usecases updated:  (sould be at minimun 10)
+- [x] Send and Receive messages in Real-time in chat rooms.
+- [x] Switch between different chat rooms
+- [x] Create new room (if logged in)
+- [ ] User registration
+- [ ] User login/logout , (Authenticationwith OAuth2?)
+- [ ] See time since posted for messages 
+- [ ] User settings page (update profile)
+- [ ] Upload image for avatar
+- [ ] Generate default avatars
+- [x] filter out bad language
+- [ ] Chat rooms with categories (internet forum inspired) - initially static
+- [ ] Show public User profile (some info about user? age, gender, mail, about etc...)
+- [ ] Show user statistics on profile page
+- [ ] Make mobilanpassad
+- [ ] private rooms, invitations?
+- [ ] direct messages
+- [ ] change language of the webapp
+
+
+
 Rita en bild på den övergripande arkitekturen/designen
 * See picture.
 

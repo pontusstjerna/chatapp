@@ -1,16 +1,5 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
-
-const index = require('./src/routes/index');
-
-import { users } from './src/routes/users';
-import { rooms } from './src/routes/rooms';
-import { messages } from './src/routes/messages';
-
+import express from 'express';
+import mongoose from 'mongoose';
 import socket from './src/socket/socket'; 
 
 const app = express();
