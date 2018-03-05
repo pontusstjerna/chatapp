@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Identicon from 'identicon.js';
 import '../../../styles/chatwindow.css';
 import {
     send,
@@ -93,6 +94,11 @@ const MessageList = (props) => {
     );
 }
 
+function generateIcon(user) {
+    let hashFromUser = user? user._id : 'oiaw590uif0u934598uerue489tiuh';
+    return `data:image/png;base64,${new Identicon(hashFromUser)}`;
+}
+
 /*
 *   Stateless component for displaying a message
 *   props:  message= message Object
@@ -101,7 +107,7 @@ const MessageItem = (props) => {
 
     return (
         <Comment key={ props.item._id }>
-            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+            <Comment.Avatar src={generateIcon(props.item.user)} />
             <Comment.Content>
                 <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
                 <Comment.Metadata>
