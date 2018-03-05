@@ -1,30 +1,11 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
-
-const index = require('./src/routes/index');
-
-import { users } from './src/routes/users';
-import { rooms } from './src/routes/rooms';
-import { messages } from './src/routes/messages';
-
+import express from 'express';
+import mongoose from 'mongoose';
 import socket from './src/socket/socket'; 
 
 const app = express();
 
 // Start socket!
 socket(app);
-
-app.use(logger('dev')); //logs all http requests
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-//Set up db connection
-//Set up default mongoose connection
-//const mongoDB = 'mongodb://127.0.0.1/chatdb';
 
 var mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
 mongoURLLabel = "";
@@ -61,32 +42,3 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-//Set up routes
-app.use(cors());
-app.use('/', index);
-//app.use('/authors', authors);
-//app.use('/books', books);
-app.use('/users', users());
-app.use('/rooms', rooms());
-app.use('/messages', messages());
-// catch req if not caught by router, set 404 and forward to error handler
-app.use(function(req, res, next) {
-  let err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.json({"message": err.message, "documentation_url": "TDB"});
-});
-
-const port = process.env.PORT || 3001
-app.listen(port);
-console.log('===================================');
-console.log('Backend running on port: ' + port);
