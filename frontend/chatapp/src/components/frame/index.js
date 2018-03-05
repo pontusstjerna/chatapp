@@ -4,6 +4,7 @@ import { Route, NavLink, HashRouter } from 'react-router-dom';
 import HomeView from '../home-view';
 import ChatroomsView from '../chatrooms-view';
 import AboutView from '../about-view';
+import RegisterView from '../register-view';
 import Footer from '../footer';
 
 export default class Frame extends Component {
@@ -14,7 +15,7 @@ export default class Frame extends Component {
 
         // This view's local state, aka all "global variables" should be stored here
         this.state = {
-            
+
         };
     }
 
@@ -26,21 +27,22 @@ export default class Frame extends Component {
 
                     <div className="ui inverted menu">
                             <NavLink className="item" exact to="/">Home</NavLink>
-                            <NavLink className="item" to="/chat">Chat!</NavLink>        
+                            <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
                             <NavLink className="item right" to="/register">Register</NavLink>
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}
 
-                    <div className="content"> 
+                    <div className="content">
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
+                        <Route path="/register" component={RegisterView} />
                     </div>
-                    
+
                     <Footer/>
-                </div>                
+                </div>
             </HashRouter>
         );
     }

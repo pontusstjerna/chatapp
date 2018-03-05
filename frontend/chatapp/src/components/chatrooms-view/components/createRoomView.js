@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+    createRoom,
+} from '../../../data/socket';
 
 class CreateRoomView extends Component {
 
@@ -13,7 +16,7 @@ class CreateRoomView extends Component {
 
     addRoom() {
         const { name, description } = this.state; 
-        this.props.addRoom({
+        createRoom({
             name: name.replace(/ /g, '_'),
             description,
         });
