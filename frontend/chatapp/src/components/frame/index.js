@@ -5,6 +5,7 @@ import HomeView from '../home-view';
 import SidebarView from '../sidebar-view';
 import AboutView from '../about-view';
 import RegisterView from '../register-view';
+import LoginView from '../login-view';
 import Footer from '../footer';
 
 export default class Frame extends Component {
@@ -29,7 +30,8 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
-                            <NavLink className="item right" to="/register">Register</NavLink>
+                            <NavLink className="item right" to="/login">Login</NavLink>
+                            {/* <NavLink className="item right" to="/register">Register</NavLink> */}
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}
@@ -38,6 +40,7 @@ export default class Frame extends Component {
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={SidebarView} />
                         <Route path="/about" component={AboutView} />
+                        <Route path="/login" component={LoginView} />
                         <Route path="/register" component={RegisterView} />
                     </div>
 
