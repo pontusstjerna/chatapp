@@ -7,6 +7,9 @@ import AboutView from '../about-view';
 import RegisterView from '../register-view';
 import Footer from '../footer';
 
+/* react-intl imports */
+import { FormattedMessage } from 'react-intl';
+
 export default class Frame extends Component {
     constructor(props) {
         // This needs to be called first. Props is an object containing all properties of a component
@@ -26,10 +29,10 @@ export default class Frame extends Component {
                 <div className="ui container">
 
                     <div className="ui inverted menu">
-                            <NavLink className="item" exact to="/">Home</NavLink>
-                            <NavLink className="item" to="/chat">Chat!</NavLink>
-                            <NavLink className="item" to="/about">About</NavLink>
-                            <NavLink className="item right" to="/register">Register</NavLink>
+                            <NavLink className="item" exact to="/"><FormattedMessage id = "frame.home" defaultMessage = "Home"/></NavLink>
+                            <NavLink className="item" to="/chat"><FormattedMessage id = "frame.chat" defaultMessage = "Chat!"/></NavLink>
+                            <NavLink className="item" to="/about"><FormattedMessage id = "frame.about" defaultMessage = "About"/></NavLink>
+                            <NavLink className="item right" to="/register"><FormattedMessage id = "frame.register" defaultMessage = "Register"/></NavLink>
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}

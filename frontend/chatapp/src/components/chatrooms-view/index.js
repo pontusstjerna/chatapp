@@ -13,7 +13,7 @@ import {
 
 import ChatroomView from '../chatroom-view';
 import CreateRoomView from './components/createRoomView';
-
+import { FormattedMessage } from 'react-intl';
 
 class ChatroomsView extends Component {
 
@@ -57,15 +57,15 @@ class ChatroomsView extends Component {
                     <div className="four wide column">
                         <div className="ui left vertical fluid menu">
                             <div className="item">
-                                <div className="header">Rooms</div>
+                                <div className="header"><FormattedMessage id = "chatrooms.rooms" defaultMessage = "Rooms"/></div>
                                 <div className="menu">
                                     {this.renderLinks()} 
                                 </div>
                             </div>
                             <div className="item">
-                                <div className="header">Manage</div>
+                                <div className="header"><FormattedMessage id = "chatrooms.manage" defaultMessage = "Manage"/></div>
                                 <div className="menu">
-                                    <NavLink className="item" to="/chat/addRoom">Add room </NavLink>
+                                    <NavLink className="item" to="/chat/addRoom"><FormattedMessage id = "chatrooms.addRooms" defaultMessage = "Add rooms"/></NavLink>
                                 </div>
                             </div>
                         </div>

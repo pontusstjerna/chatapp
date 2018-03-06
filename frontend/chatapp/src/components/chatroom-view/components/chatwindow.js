@@ -8,7 +8,7 @@ import {
 } from '../../../data/socket';
 import * as constants from '../../../data/constants';
 import { Comment } from 'semantic-ui-react'
-
+import { FormattedMessage } from 'react-intl';
 
 export default class ChatWindow extends Component {
     constructor(props) {
@@ -73,7 +73,7 @@ export default class ChatWindow extends Component {
                             />
                     </div>
                     <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                        <i className="icon edit"></i> Send
+                        <i className="icon edit"></i> <FormattedMessage id = "chatwindow.send" defaultMessage = "Send"/>
                     </div>
                 </form>
             </div>
