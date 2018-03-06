@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import '../../../styles/chatwindow.css';
 import {
-    send,
+    sendMessage,
     getMessages,
-    registerMessages,
     registerReceiveMsg,
 } from '../../../data/socket';
-import * as constants from '../../../data/constants';
 import { Comment } from 'semantic-ui-react'
 
 
@@ -22,25 +20,36 @@ export default class ChatWindow extends Component {
     }
 
     componentDidMount() {
-        registerMessages(messages => {
-            this.setState({messages: messages.messages});
-        });
-
-        registerReceiveMsg(message => {
-            let messages = this.state.messages;
-            messages.push(message);
-            this.setState({messages});
+        registerReceiveMsg(newMessage => {
+            console.log("received msg: ", newMessage)
+            let messagesCopy = this.state.messages.slice();
+            messagesCopy.push(newMessage);
+            this.setState({messages: messagesCopy});
         })
 
-        getMessages(this.props.room._id);
+        this.getMessagesInRoom(this.props.room._id);
+    }
+
+    /*
+    *   Called right before components is destroyed. Do cleanup here on listeners etc...
+    */
+    componentWillUnmount() {
+
+    }
+
+    getMessagesInRoom(roomId) {
+        getMessages(roomId).then(messages => {
+            this.setState({messages: messages});
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     send() {
         console.log('Sent: ' + this.state.input);
         this.setState({input: ''});
-
-        // This is our "oo-model"
-        send({
+        sendMessage({
             text: this.state.input,
             user: this.state.user,
             room: this.props.room._id,
@@ -50,7 +59,7 @@ export default class ChatWindow extends Component {
     render() {
         return (
             <div className="ui segment">
-                
+
                 <MessageList messageArr={ this.state.messages }/>
 
                 <form className="ui reply form">
@@ -92,9 +101,32 @@ const MessageList = (props) => {
     );
 }
 
+/*
+*   Stateless component for displaying a message
+*   props:  message= message Object
+*/
+const MessageItem = (props) => {
+    return (
+        <Comment key={ props.item._id }>
+            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
+            <Comment.Content>
+                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
+                <Comment.Metadata>
+                    <div>{ formatTimestamp(props.item.time_stamp) }</div>
+                </Comment.Metadata>
+
+                <Comment.Metadata>
+                    { lastPosted(props.item.time_stamp) }
+                </Comment.Metadata>
+                <Comment.Text>{ props.item.text }</Comment.Text>
+            </Comment.Content>
+        </Comment>
+    );
+}
+
 //append a leading zero to strings with length of one
 function singleDigitPrepend(data){
-    if(data.toString().length == 1){
+    if(data.toString().length === 1){
         data = "0" + data
     }
     return data
@@ -118,27 +150,4 @@ function formatTimestamp(time){
 function lastPosted(time){
     var ta = require('time-ago');
     return ta.ago(time);
-}
-
-/*
-*   Stateless component for displaying a message
-*   props:  message= message Object
-*/
-const MessageItem = (props) => {
-    return (
-        <Comment key={ props.item._id }>
-            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
-            <Comment.Content>
-                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
-                <Comment.Metadata>
-                    <div>{ formatTimestamp(props.item.time_stamp) }</div>
-                </Comment.Metadata>
-
-                <Comment.Metadata>
-                    { lastPosted(props.item.time_stamp) }
-                </Comment.Metadata>
-                <Comment.Text>{ props.item.text }</Comment.Text>
-            </Comment.Content>
-        </Comment>
-    );
 }

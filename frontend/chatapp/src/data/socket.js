@@ -8,37 +8,63 @@ socket.on(events.ERROR, msg => {
     console.log(msg);
 });
 
-export const send = (msg) => {
+export const sendMessage = (msg) => {
     socket.emit(events.SEND_MSG, JSON.stringify(msg));
 }
 
+/*
+    JSON Response sent from server
+    {
+        "success": bool,
+        "data": obj or null,
+        "error": obj or null,
+    }
+*/
+
+
+// Returns response wrapped in a promise. No need to register a listener.
 export const getRooms = () => {
     socket.emit(events.GET_ROOMS, null);
+
+    return new Promise((resolve, reject) => {
+        socket.on(events.GET_ROOMS, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data);
+            } else {
+                console.log("#getRooms:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
+    });
 }
 
-export const registerRooms = (listener) => {
-    socket.on(events.GET_ROOMS, rooms => {
-        listener(JSON.parse(rooms));
-    })
-}
+// Returns response wrapped in a promise. No need to register a listener.
+export const getMessages = (roomId) => {
+    socket.emit(events.GET_MESSAGES, roomId);
 
-export const registerNewRoom = (listener) => {
-    socket.on(events.CREATE_ROOM, response => {
-        listener(JSON.parse(response));
-    })
+    return new Promise((resolve, reject) => {
+        socket.on(events.GET_MESSAGES, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data.messages);
+            } else {
+                console.log("#getMessages:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
+    });
 }
 
 export const createRoom = (room) => {
     socket.emit(events.CREATE_ROOM, JSON.stringify(room));
 }
 
-export const getMessages = (roomId) => {
-    socket.emit(events.GET_MESSAGES, roomId);
-}
-
-export const registerMessages = (listener) => {
-    socket.on(events.GET_MESSAGES, messages => {
-        listener(JSON.parse(messages));
+export const registerNewRoom = (listener) => {
+    socket.on(events.CREATE_ROOM, response => {
+        listener(JSON.parse(response));
     })
 }
 
@@ -50,24 +76,38 @@ export const registerReceiveMsg = (listener) => {
 
 /* USER */
 
-export const createUser = (user) => {
-    console.log('Emitting ' + JSON.stringify(user));
-    socket.emit(events.USER_REGISTER, user);
-}
+// Returns response wrapped in a promise. No need to register a listener.
+export const registerUser = (user) => {
+    socket.emit(events.USER_REGISTER, JSON.stringify(user));
 
-export const registerCreateUser = (listener) => {
-    socket.on(events.USER_REGISTER, result => {
-        listener(result);
+    return new Promise((resolve, reject) => {
+        socket.on(events.USER_REGISTER, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data);
+            } else {
+                console.log("#registerUser:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
     });
 }
 
+// Returns response wrapped in a promise. No need to register a listener.
 export const loginUser = (user) => {
-    console.log('Emitting USER_LOGIN: ' + JSON.stringify(user));
-    socket.emit(events.USER_LOGIN, user);
-}
+    socket.emit(events.USER_LOGIN, JSON.stringify(user));
 
-export const registerLoginUser = (listener) => {
-    socket.on(events.USER_LOGIN, result => {
-        listener(result);
+    return new Promise((resolve, reject) => {
+        socket.on(events.USER_LOGIN, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data);
+            } else {
+                console.log("#loginUser:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
     });
 }
