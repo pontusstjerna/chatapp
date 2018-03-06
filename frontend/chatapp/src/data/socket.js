@@ -71,3 +71,14 @@ export const registerLoginUser = (listener) => {
         listener(result);
     });
 }
+
+export const updateUser = (user) => {
+  console.log('Emitting USER_UPDATE: ' + JSON.stringify(user));
+  socket.emit(events.USER_UPDATE, user);
+}
+
+export const registerUpdateUser = (listener) => {
+  socket.on(events.USER_UPDATE, result => {
+    listener(result);
+  });
+}

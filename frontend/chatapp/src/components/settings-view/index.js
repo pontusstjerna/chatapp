@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
+import {
+  updateUser,
+  registerUpdateUser
+} from '../../data/socket';
 
 class SettingsView extends Component {
   constructor(props) {
@@ -8,12 +12,23 @@ class SettingsView extends Component {
       nickname: 'Test',
       about: 'Test',
       email: "hello@example.com",
-      password: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    updateCreateUser((result) => {
+      alert('User Updated!');
+      console.log('User Updated');
+    })
+  }
+
   handleSubmit(event) {
+    updateUser({
+      email: this.state.email
+      nickname: this.state.nickname,
+      about: this.state.about,
+    });
     event.preventDefault();
   }
 
@@ -38,12 +53,6 @@ class SettingsView extends Component {
                 placeholder="About me"
                 value={this.state.about}
                 onChange={e => this.setState({about: e.target.value})}
-              />
-              <Form.Input
-                label="Password"
-                type="password"
-                value={this.state.about}
-                onChange={e => this.SetState({password: e.target.value})}
               />
               <Button type="submit">Save</Button>
             </Form>
