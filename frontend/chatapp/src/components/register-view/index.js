@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
-
-const baseURL = 'http://localhost:3000/users'
+import {
+  createUser,
+  registerCreateUser
+} from '../../data/socket';
 
 class RegisterView extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +20,13 @@ class RegisterView extends Component {
 
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.create = this.create.bind(this);
+  }
+
+  componentDidMount() {
+    registerCreateUser((result) => {
+      alert('User created!');
+      console.log('User created');
+    })
   }
 
   handlePswdConfChange(event) {
@@ -29,27 +38,13 @@ class RegisterView extends Component {
 
   handleSubmit(event) {
     if (this.state.passwordConf) {
-      this.create();
+      console.log('A user was submitted: ' + this.state.nickname);
+      createUser({nickname: this.state.nickname, password: this.state.password});
     } else {
       this.setState({formError: true})
     }
     event.preventDefault();
   }
-
-  create() {
-    fetch(baseURL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        nickname: this.state.nickname,
-        password: this.state.password
-      })
-    })
-  }
-
 
   render() {
     return (

@@ -5,6 +5,11 @@ import {
     HashRouter
   } from 'react-router-dom';
 import * as constants from '../../data/constants';
+import {
+    getRooms,
+    registerRooms,
+    registerNewRoom,
+} from '../../data/socket';
 
 import ChatroomView from '../chatroom-view';
 import CreateRoomView from './components/createRoomView';
@@ -21,22 +26,17 @@ class ChatroomsView extends Component {
     }
 
     componentDidMount() {
+        registerRooms((rooms) => {
+            this.setState({rooms});
+        });
+        registerNewRoom((success) => {
+            this.getAllRooms();
+        });
         this.getAllRooms();
     }
 
     getAllRooms() {
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms`).then(result => {
-            if (result.ok) {
-                return result.json();
-            } else {
-                alert('Unable to fetch any rooms! :( Status: ' + result.status);
-                return null;
-            }
-        }).then(rooms => {
-            if (rooms) {
-                this.setState({rooms});
-            }
-        });
+        getRooms();
     }
 
     renderLinks() {
@@ -48,23 +48,6 @@ class ChatroomsView extends Component {
     renderRoutes() {
         return this.state.rooms.map(room => 
             <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatroomView room={room} />} />);
-    }
-
-    addRoom(room) {
-        // Todo!
-        fetch(`http://${constants.backendURL}:${constants.restPort}/rooms`, {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-            },
-            body: JSON.stringify(room),
-        }).then(result => {
-            if (result.ok) {
-                this.getAllRooms();
-            } else {
-                alert('Unable to create room ' + room.name);
-            }
-        });
     }
 
     render() {

@@ -28,7 +28,7 @@ export default class Frame extends Component {
 
                     <div className="ui inverted menu">
                             <NavLink className="item" exact to="/">Home</NavLink>
-                            <NavLink className="item" to="/chat">Chat!</NavLink>        
+                            <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
                             <NavLink className="item" to="/settings">Settings</NavLink>
                             <NavLink className="item right" to="/register">Register</NavLink>
@@ -36,16 +36,16 @@ export default class Frame extends Component {
 
                     { /* PUT ALL CONTENT HERE */}
 
-                    <div className="content"> 
+                    <div className="content">
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={ChatroomsView} />
                         <Route path="/about" component={AboutView} />
                         <Route path="/settings" component={SettingsView} />
                         <Route path="/register" component={RegisterView} />
                     </div>
-                    
+
                     <Footer/>
-                </div>                
+                </div>
             </HashRouter>
         );
     }

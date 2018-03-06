@@ -2,6 +2,9 @@ import http from 'http';
 import socketIO from 'socket.io';
 import * as events from './events';
 import Message from '../models/message';
+import rooms from '../routes/rooms';
+import messages from '../routes/messages';
+import users from '../routes/users';
 
 const port = 4000;
 
@@ -22,26 +25,12 @@ export default (app) => {
     server.listen(port, () => console.log(`Listening on port ${port}`));
 
     io.on(events.CONNECTION, socket => {
-      console.log('New user connected!');
-
-      // just like on the client side, we have a socket.on method that takes a callback function
-      socket.on(events.SEND_MSG, (msg) => {
-        console.log('Server received message: ' + msg);
-
-	let newMessage = new Message(JSON.parse(msg));
-
-	//replaces the profanity text with asterisks
-	newMessage.text=filter.clean(newMessage.text);
-
-        // TODO: Add message to database
-        newMessage.save().then(() => {
-            console.log('Message successfully saved to db');
-            io.sockets.emit(events.RECEIVE_MSG, JSON.stringify(newMessage));
-        }).catch(err => {
-            console.log('Unable to save message to db: ' + err.message);
-        });
-      })
+        console.log('New user connected!');
     
+        rooms(io, socket);
+        messages(io, socket);
+        users(socket);
+
+        return socket;
     })
-    
 }

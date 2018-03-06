@@ -30,7 +30,7 @@ Vilka use cases	har ni tänkt er?
 - [x] Create new room (if logged in)
 - [ ] User registration
 - [ ] User login/logout , (Authenticationwith OAuth2?)
-- [ ] See time since posted for messages 
+- [x] See time since posted for messages 
 - [ ] User settings page (update profile)
 - [ ] Upload image for avatar
 - [ ] Generate default avatars
@@ -47,6 +47,8 @@ Vilka use cases	har ni tänkt er?
 
 Rita en bild på den övergripande arkitekturen/designen
 * See picture.
+
+
 
 M.h.a. bilden , kör ett use case (flödet)
 1. User writes message in React client
