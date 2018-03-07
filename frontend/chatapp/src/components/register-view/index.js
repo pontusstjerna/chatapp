@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
 import {
-  createUser,
-  registerCreateUser
+  registerUser
 } from '../../data/socket';
 
 class RegisterView extends Component {
@@ -23,10 +22,7 @@ class RegisterView extends Component {
   }
 
   componentDidMount() {
-    registerCreateUser((result) => {
-      alert('User created!');
-      console.log('User created');
-    })
+
   }
 
   handlePswdConfChange(event) {
@@ -39,7 +35,16 @@ class RegisterView extends Component {
   handleSubmit(event) {
     if (this.state.passwordConf) {
       console.log('A user was submitted: ' + this.state.nickname);
-      createUser({nickname: this.state.nickname, password: this.state.password});
+
+      let user = {nickname: this.state.nickname, password: this.state.password};
+      registerUser(user)
+        .then(savedUser => {
+            console.log("Registered User: ", savedUser);
+        })
+        .catch(err => {
+            console.log("Failed to register: ", err);
+        })
+
     } else {
       this.setState({formError: true})
     }
