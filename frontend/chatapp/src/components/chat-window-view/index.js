@@ -137,7 +137,7 @@ function lastPosted(time){
 }
 
 function generateIcon(user) {
-    let hashFromUser = user? user._id : 'oiaw590uif0u934598uerue489tiuh';
+    let hashFromUser = user? (user._id + user._id) : 'oiaw590uif0u934598uerue489tiuh';
     return `data:image/png;base64,${new Identicon(hashFromUser)}`;
 }
 
@@ -150,7 +150,7 @@ const MessageItem = (props) => {
         <Comment key={ props.item._id }>
             <Comment.Avatar src={generateIcon(props.item.user)} />
             <Comment.Content>
-                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
+                <Comment.Author as='a'>{ props.item.user ? props.item.user.nickname : 'Anonymous' }</Comment.Author>
                 <Comment.Metadata>
                     <div>{ formatTimestamp(props.item.time_stamp) }</div>
                 </Comment.Metadata>

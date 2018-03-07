@@ -21,7 +21,9 @@ class User {
     }
 
     logout() {
-        this.user = null;
+        this.userId = null;
+        this.nickname = "Anonymous";
+        this.token = null;
     }
 
     isLoggedIn() {
