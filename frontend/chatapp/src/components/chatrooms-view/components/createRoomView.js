@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {
     createRoom,
 } from '../../../data/socket';
+import { FormattedMessage  } from 'react-intl';
+import { Format } from 'react-intl-format';
+
 
 class CreateRoomView extends Component {
 
@@ -24,27 +27,33 @@ class CreateRoomView extends Component {
 
     render() {
         return (
+		<Format>
+        {intl => (
             <div className="input-container">
-                <h3>Create new room</h3>
+                <h3><FormattedMessage id = "chatwindow.createNewRoom" defaultMessage = "Create a new rooms"/></h3>
                 <hr />
                 <input
                     className="input" 
                     type="text"
-                    placeholder="Enter a room name"
+                    placeholder={intl.formatMessage({id:'chatwindow.input'})}
                     value={this.state.name}
                     onChange={e => this.setState({name: e.target.value})}
                     />
                 <input
                     className="input"
                     type="text"
-                    placeholder="Enter a description"
+                    placeholder={intl.formatMessage({id:'chatwindow.description'})}
                     value={this.state.description}
                     onChange={e => this.setState({description: e.target.value})}
                     />
-                <button onClick={() => this.addRoom()}>Add room </button>
+                <button onClick={() => this.addRoom()}><FormattedMessage id = "chatwindow.addRoom" defaultMessage = "Rooms"/> </button>
             </div>
+        )}
+        </Format>
         )
     }
 }
+
+
 
 export default CreateRoomView;

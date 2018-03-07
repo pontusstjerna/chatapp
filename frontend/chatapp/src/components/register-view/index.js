@@ -4,6 +4,8 @@ import {
   createUser,
   registerCreateUser
 } from '../../data/socket';
+import { FormattedMessage } from 'react-intl';
+import { Format } from 'react-intl-format';
 
 class RegisterView extends Component {
 
@@ -60,16 +62,18 @@ class RegisterView extends Component {
   render() {
     return (
       <div>
+      <Format>
+        {intl => (
         <Grid centered columns={3}>
           <Grid.Column>
             <h2>
-              Register user
+              <FormattedMessage id = "register.send" defaultMessage = "Send"/>
             </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
-              <Form.Input type="text" placeholder="Nickname" value={this.state.nickname} onChange={this.handleNickChange} />
-              <Form.Input type="password" placeholder="Password" value={this.state.password} onChange={this.handlePswdChange} />
-              <Form.Input error={!this.state.passwordConf} type="password" placeholder="Confirm password" value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
-              <Button type='submit'>Submit</Button>
+              <Form.Input type="text" placeholder={intl.formatMessage({id:'register.nickname'})} value={this.state.nickname} onChange={this.handleNickChange} />
+              <Form.Input type="password" placeholder={intl.formatMessage({id:'register.password'})} value={this.state.password} onChange={this.handlePswdChange} />
+              <Form.Input error={!this.state.passwordConf} type="password" placeholder={intl.formatMessage({id:'register.confirmPassword'})} value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
+              <Button type='submit'><FormattedMessage id = "register.send" defaultMessage = "Send"/></Button>
               <Message
                 error
                 header='Action Forbidden'
@@ -78,6 +82,8 @@ class RegisterView extends Component {
             </Form>
           </Grid.Column>
         </Grid>
+        )}
+        </Format>
       </div>
     );
   }

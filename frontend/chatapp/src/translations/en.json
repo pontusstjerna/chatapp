@@ -1,6 +1,17 @@
 {
     "frame.home": "Home",
     "frame.chat": "Chat!",
-	"frame.about": "About",
-	"frame.register": "Register"
+    "frame.about": "About",
+    "frame.register": "Register",
+    "chatrooms.rooms": "Chat rooms",
+    "chatrooms.manage": "Manage",
+    "chatrooms.addRooms": "Add room",
+    "chatwindow.description": "Add a new description",
+    "chatwindow.createNewRoom": "Create a new room",
+    "chatwindow.addRoom": "Add room",
+    "register.userRegister": "Register user",
+    "register.nickname": "Nickname",
+    "register.password": "Password",
+    "register.send": "Skicka",
+    "register.confirmPassword": "Bekräfta lösenord"
 }
