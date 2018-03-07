@@ -17,22 +17,12 @@ class RegisterView extends Component {
       errorMsg: ''
     };
 
-    this.handleNickChange = this.handleNickChange.bind(this);
-    this.handlePswdChange = this.handlePswdChange.bind(this);
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
 
-  }
-
-  handleNickChange(event) {
-    this.setState({nickname: event.target.value});
-  }
-
-  handlePswdChange(event) {
-    this.setState({password: event.target.value, passwordConf: event.target.value === this.state.confirmPassword});
   }
 
   handlePswdConfChange(event) {
@@ -56,7 +46,6 @@ class RegisterView extends Component {
         })
 
     } else {
-      this.setState({errorMsg: "Passwords must match"});
       this.setState({formError: true})
     }
     event.preventDefault();
@@ -71,9 +60,25 @@ class RegisterView extends Component {
               Register user
             </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
-              <Form.Input type="text" placeholder="Nickname" value={this.state.nickname} onChange={this.handleNickChange} />
-              <Form.Input type="password" placeholder="Password" value={this.state.password} onChange={this.handlePswdChange} />
-              <Form.Input error={!this.state.passwordConf} type="password" placeholder="Confirm password" value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
+              <Form.Input
+                type="text"
+                placeholder="Nickname"
+                value={this.state.nickname}
+                onChange={e => this.setState({nickname: e.target.value})}
+              />
+              <Form.Input
+                type="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={e => this.setState({password: e.target.value})}
+              />
+              <Form.Input
+                error={!this.state.passwordConf}
+                type="password"
+                placeholder="Confirm password"
+                value={this.state.confirmPassword}
+                onChange={this.handlePswdConfChange}
+              />
               <Button type='submit'>Submit</Button>
               <Message
                 error

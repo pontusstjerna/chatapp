@@ -111,3 +111,20 @@ export const loginUser = (user) => {
         //TODO: reject after a set timeout if we get no response from server
     });
 }
+
+export const updateUser = (user) => {
+  console.log('Emitting USER_UPDATE: ' + JSON.stringify(user));
+  socket.emit(events.USER_UPDATE, user);
+
+  return new Promise((resolve, reject) => {
+    socket.on(events.USER_UPDATE, response => {
+      let res = JSON.parse(response);
+      if (res.success) {
+        resolve(res.data);
+      } else {
+        console.log("#updateUser:reject: ", res.error)
+        reject(res.error);
+      }
+    })
+  });
+}

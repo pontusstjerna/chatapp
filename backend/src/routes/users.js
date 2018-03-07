@@ -5,6 +5,7 @@ import {
     USER_REGISTER,
     USER_LOGIN,
     USER_LOGOUT,
+    USER_UPDATE,
     ERROR,
 } from '../socket/events';
 
@@ -101,5 +102,43 @@ export default (socket) => {
                 let error = { success: false, data: null, error: "Auth failed" };
                 socket.emit(USER_LOGIN, JSON.stringify(error));
             });
+    });
+
+    socket.on(USER_UPDATE, ({email, nickname, about}) => {
+      console.log('Updating : ' + nickname);
+      User.findOne({ email: email }).then(user => {
+        console.log(JSON.stringify(user));
+        if (user) {
+          user.email = email;
+          user.nickname = nickname;
+          user.about = about;
+          user.save().then(result => {
+            console.log(result);
+            let response = {
+              success: true,
+              data: {
+                  msg: "User has been updated.",
+              },
+              error: null
+            }
+            socket.emit(USER_UPDATE, JSON.stringify(response));
+          }).catch(err => {
+              console.log(err);
+              let error = {
+                success: false,
+                data: null,
+                error: "Update failed"
+              };
+              socket.emit(USER_LOGIN, JSON.stringify(error));
+          });
+        } else {
+          let error = {
+            success: false,
+            data: null,
+            error: "Update failed"
+          };
+          socket.emit(USER_LOGIN, JSON.stringify(error));
+        }
+      });
     });
 }
