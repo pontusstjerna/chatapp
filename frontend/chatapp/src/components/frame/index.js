@@ -3,10 +3,11 @@ import { Route, NavLink, HashRouter } from 'react-router-dom';
 import UserSession from '../../session/usersession';
 
 import HomeView from '../home-view';
-import ChatroomsView from '../chatrooms-view';
+import SidebarView from '../sidebar-view';
 import AboutView from '../about-view';
 import SettingsView from '../settings-view';
 import RegisterView from '../register-view';
+import LoginView from '../login-view';
 import Footer from '../footer';
 
 export default class Frame extends Component {
@@ -32,16 +33,18 @@ export default class Frame extends Component {
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
                             {UserSession.isLoggedIn() ? (<NavLink className="item" to="/settings">Settings</NavLink>) : (null) }
-                            <NavLink className="item right" to="/register">Register</NavLink>
+                            <NavLink className="item right" to="/login">Login</NavLink>
+                            {/* <NavLink className="item right" to="/register">Register</NavLink> */}
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}
 
                     <div className="content">
                         <Route exact path="/" component={HomeView} />
-                        <Route path="/chat" component={ChatroomsView} />
+                        <Route path="/chat" component={SidebarView} />
                         <Route path="/about" component={AboutView} />
                         <Route path="/settings" component={SettingsView} />
+                        <Route path="/login" component={LoginView} />
                         <Route path="/register" component={RegisterView} />
                     </div>
 
