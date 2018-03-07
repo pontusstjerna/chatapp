@@ -49,7 +49,7 @@ export default class Frame extends Component {
 
                     { /* PUT ALL CONTENT HERE */}
 
-                    <div className="content">
+                    <div className="content page-content">
                         <Route exact path="/" component={HomeView} />
                         <Route path="/chat" component={SidebarView} />
                         <Route path="/about" component={AboutView} />
