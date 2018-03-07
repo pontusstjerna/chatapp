@@ -1,21 +1,39 @@
+import * as socket from '../data/socket'
 
 class User {
     constructor() {
         this._type = 'User';
-        this.user = null;
+        this.userId = null;
+        this.nickname = "Anonymous";
         this.token = null;
     }
 
-    login(user) {
-        this.user = user;
+    login(nickname, password) {
+        console.log("User.login");
+        return socket.loginUser({nickname: nickname, password: password})
+        .then((res) => {
+            //if succesful
+            this.nickname = res.nickname;
+            this.token = res.token;
+            this.userId = res.userId;
+            console.log("User logged in");
+        })
     }
 
     logout() {
         this.user = null;
     }
 
-    getUser(){
-        return this.user;
+    isLoggedIn() {
+        return !!this.token;
+    }
+
+    getNickname(){
+        return this.nickname;
+    }
+
+    getUserId(){
+        return this.userId;
     }
 }
 

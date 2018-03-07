@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
+import User from '../../model/User'
 
 class LoginView extends Component {
     constructor(props) {
@@ -15,11 +16,14 @@ class LoginView extends Component {
     }
 
     handleLogin(event) {
-        console.log('Loggin in änna!');
-        // TODO!
-        this.setState({formError: true});
+        const {nickname, password}  = this.state;
+        User.login(nickname, password)
+        .catch(err => {
+            this.setState({formError: true});
+        })
         event.preventDefault();
     }
+
 
     render() {
         return(
@@ -28,17 +32,17 @@ class LoginView extends Component {
                 <Grid.Column>
                     <h2>Login</h2>
                     <Form error={this.state.formError} onSubmit={this.handleLogin}>
-                    <Form.Input 
-                        type="text" 
-                        placeholder="Nickname" 
-                        value={this.state.nickname} 
-                        onChange={e => this.setState({nickname: e.target.value})} 
+                    <Form.Input
+                        type="text"
+                        placeholder="Nickname"
+                        value={this.state.nickname}
+                        onChange={e => this.setState({nickname: e.target.value})}
                     />
-                    <Form.Input 
-                        type="password" 
-                        placeholder="Password" 
-                        value={this.state.password} 
-                        onChange={e => this.setState({password: e.target.value})} 
+                    <Form.Input
+                        type="password"
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={e => this.setState({password: e.target.value})}
                     />
                     <Button type='submit'>Login</Button>
                     <Message
