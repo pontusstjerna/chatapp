@@ -137,7 +137,8 @@ function lastPosted(time){
 }
 
 function generateIcon(user) {
-    let hashFromUser = user? (user._id + user._id) : 'oiaw590uif0u934598uerue489tiuh';
+    let hashFromUser = 'oiaw590uif0u934598uerue489tiuh';
+    //let hashFromUser = user? (user._id + user._id) : 'oiaw590uif0u934598uerue489tiuh'; // Causes error because user doesn't have id
     return `data:image/png;base64,${new Identicon(hashFromUser)}`;
 }
 
