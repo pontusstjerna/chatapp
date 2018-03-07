@@ -13,6 +13,7 @@
     "home.frontend": "Ny frontend",
     "home.os": "Någon vann OS",
     "chatwindow.input": "Skriv ett meddelande...",
+    "chatwindow.roomName": "Lägg till ett rumnamn",
     "chatwindow.send": "Skicka",
     "chatwindow.description": "Lägg till en beskrivning",
     "chatwindow.createNewRoom": "Skapa nytt rum",

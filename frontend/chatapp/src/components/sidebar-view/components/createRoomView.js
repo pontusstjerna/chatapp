@@ -6,7 +6,6 @@ import {
 import { FormattedMessage  } from 'react-intl';
 import { Format } from 'react-intl-format';
 
-
 class CreateRoomView extends Component {
 
     constructor(props) {
@@ -28,28 +27,9 @@ class CreateRoomView extends Component {
 
     render() {
         return (
-		<Format>
+        <Format>
         {intl => (
             <div className="input-container">
-<<<<<<< HEAD
-                <h3><FormattedMessage id = "chatwindow.createNewRoom"/></h3>
-                <hr />
-                <input
-                    className="input" 
-                    type="text"
-                    placeholder={intl.formatMessage({id:'chatwindow.input'})}
-                    value={this.state.name}
-                    onChange={e => this.setState({name: e.target.value})}
-                    />
-                <input
-                    className="input"
-                    type="text"
-                    placeholder={intl.formatMessage({id:'chatwindow.description'})}
-                    value={this.state.description}
-                    onChange={e => this.setState({description: e.target.value})}
-                    />
-                <button onClick={() => this.addRoom()}><FormattedMessage id = "chatwindow.addRoom"/> </button>
-=======
               <Grid columns={3}>
                 <Grid.Column>
                 <h3><FormattedMessage id = "chatwindow.createNewRoom"/></h3>
@@ -79,10 +59,4 @@ class CreateRoomView extends Component {
     }
 }
 
-<<<<<<< HEAD
-
-
 export default CreateRoomView;
-=======
-export default CreateRoomView;
->>>>>>> f96e0b0abe0be15f9eed3fcab53c3a436b033d4b

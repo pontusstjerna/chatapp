@@ -14,7 +14,7 @@ var Filter = require('bad-words');
 export default (app) => {
     // our server instance
     const server = http.createServer(app);
-    
+
     // our profanity filter
     const filter = new Filter();
 
@@ -26,10 +26,14 @@ export default (app) => {
 
     io.on(events.CONNECTION, socket => {
         console.log('New user connected!');
-    
+
         rooms(io, socket);
         messages(io, socket);
         users(socket);
+
+        socket.on('disconnect', function () {
+            console.log("user disconnected")
+        });
 
         return socket;
     })

@@ -13,3 +13,4 @@ export const GET_MESSAGES = 'get_messages';
 export const USER_REGISTER = 'user_register';
 export const USER_LOGIN = 'user_login';
 export const USER_LOGOUT = 'user_logout';
+export const USER_UPDATE = 'user_update';

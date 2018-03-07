@@ -10,10 +10,16 @@ export default (io, socket) => {
     socket.on(GET_ROOMS, () => {
         Room.find()
         .then(docs => {
-            socket.emit(GET_ROOMS, JSON.stringify(docs));
+            let res = {
+                success: true,
+                data: docs,
+                error: null
+            };
+            socket.emit(GET_ROOMS, JSON.stringify(res));
         })
         .catch(err => {
-            socket.emit(ERROR, 'Unable to fetch any rooms!');
+            let errResponse = {success: false, data: null, error: err};
+            socket.emit(GET_ROOMS, JSON.stringify(errResponse));
         });
     });
 

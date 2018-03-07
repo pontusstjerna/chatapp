@@ -4,31 +4,27 @@ import {
     NavLink,
     HashRouter
   } from 'react-router-dom';
-import * as constants from '../../data/constants';
+//import * as constants from '../../data/constants';
 import {
     getRooms,
-    registerRooms,
     registerNewRoom,
 } from '../../data/socket';
 
-import ChatroomView from '../chatroom-view';
+import ChatWindowView from '../chat-window-view';
 import CreateRoomView from './components/createRoomView';
 import { FormattedMessage } from 'react-intl';
 
-class ChatroomsView extends Component {
+class SidebarView extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            rooms: [],   
+            rooms: [],
         }
     }
 
     componentDidMount() {
-        registerRooms((rooms) => {
-            this.setState({rooms});
-        });
         registerNewRoom((success) => {
             this.getAllRooms();
         });
@@ -36,18 +32,23 @@ class ChatroomsView extends Component {
     }
 
     getAllRooms() {
-        getRooms();
+        getRooms().then(rooms => {
+            this.setState({rooms});
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     renderLinks() {
-        return this.state.rooms.map(room => 
+        return this.state.rooms.map(room =>
             <NavLink className="item" key={room._id} to={'/chat/' + room.name}>
                 {room.name.replace(/_/g, ' ')}</NavLink>);
     }
 
     renderRoutes() {
-        return this.state.rooms.map(room => 
-            <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatroomView room={room} />} />);
+        return this.state.rooms.map(room =>
+            <Route key={room._id} path={'/chat/' + room.name} render={() => <ChatWindowView room={room} />} />);
     }
 
     render() {
@@ -59,7 +60,7 @@ class ChatroomsView extends Component {
                             <div className="item">
                                 <div className="header"><FormattedMessage id = "chatrooms.rooms"/></div>
                                 <div className="menu">
-                                    {this.renderLinks()} 
+                                    {this.renderLinks()}
                                 </div>
                             </div>
                             <div className="item">
@@ -74,11 +75,11 @@ class ChatroomsView extends Component {
                         {this.renderRoutes()}
                         <Route path="/chat/addRoom" render={() => <CreateRoomView addRoom={room => this.addRoom(room)} />} />
                     </div>
-            
+
                 </div>
             </HashRouter>
         );
     }
 }
 
-export default ChatroomsView;
+export default SidebarView;

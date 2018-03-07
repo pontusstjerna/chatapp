@@ -13,6 +13,7 @@
     "home.frontend": "New frontend",
     "home.os": "Someone won OS",
     "chatwindow.input": "Write a message...",
+    "chatwindow.roomName": "Enter a roomname",
     "chatwindow.send": "Send",
     "chatwindow.description": "Add a description",
     "chatwindow.createNewRoom": "Create new room",

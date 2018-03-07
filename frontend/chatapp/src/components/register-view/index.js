@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid , Message} from 'semantic-ui-react'
 import {
-  createUser,
-  registerCreateUser
+  registerUser
 } from '../../data/socket';
 import { FormattedMessage } from 'react-intl';
 import { Format } from 'react-intl-format';
@@ -20,25 +19,12 @@ class RegisterView extends Component {
       errorMsg: ''
     };
 
-    this.handleNickChange = this.handleNickChange.bind(this);
-    this.handlePswdChange = this.handlePswdChange.bind(this);
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    registerCreateUser((result) => {
-      alert('User created!');
-      console.log('User created');
-    })
-  }
 
-  handleNickChange(event) {
-    this.setState({nickname: event.target.value});
-  }
-
-  handlePswdChange(event) {
-    this.setState({password: event.target.value, passwordConf: event.target.value === this.state.confirmPassword});
   }
 
   handlePswdConfChange(event) {
@@ -51,9 +37,17 @@ class RegisterView extends Component {
   handleSubmit(event) {
     if (this.state.passwordConf) {
       console.log('A user was submitted: ' + this.state.nickname);
-      createUser({nickname: this.state.nickname, password: this.state.password});
+
+      let user = {nickname: this.state.nickname, password: this.state.password};
+      registerUser(user)
+        .then(savedUser => {
+            console.log("Registered User: ", savedUser);
+        })
+        .catch(err => {
+            console.log("Failed to register: ", err);
+        })
+
     } else {
-      this.setState({errorMsg: "Passwords must match"});
       this.setState({formError: true})
     }
     event.preventDefault();
@@ -64,16 +58,23 @@ class RegisterView extends Component {
       <div>
       <Format>
         {intl => (
-        <Grid centered columns={3}>
-          <Grid.Column>
-            <h2>
-              <FormattedMessage id = "register.send" defaultMessage = "Send"/>
-            </h2>
+          <Grid centered columns={3}>
+            <Grid.Column>
+              <h2>
+                <FormattedMessage id = "register.send" defaultMessage = "Send"/>
+              </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
-              <Form.Input type="text" placeholder={intl.formatMessage({id:'register.nickname'})} value={this.state.nickname} onChange={this.handleNickChange} />
-              <Form.Input type="password" placeholder={intl.formatMessage({id:'register.password'})} value={this.state.password} onChange={this.handlePswdChange} />
-              <Form.Input error={!this.state.passwordConf} type="password" placeholder={intl.formatMessage({id:'register.confirmPassword'})} value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
-              <Button type='submit'><FormattedMessage id = "register.send" defaultMessage = "Send"/></Button>
+              <Form.Input 
+                  type="text" 
+                  placeholder={intl.formatMessage({id:'register.nickname'})}
+                  value={this.state.nickname} onChange={this.handleNickChange} />
+              <Form.Input 
+                  type="password"
+                  placeholder={intl.formatMessage({id:'register.password'})} value={this.state.password} onChange={this.handlePswdChange} />
+              <Form.Input error={!this.state.passwordConf} 
+                  type="password" 
+                  placeholder={intl.formatMessage({id:'register.confirmPassword'})} value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
+              <Button type='submit'><FormattedMessage id = "register.send"/></Button>
               <Message
                 error
                 header='Action Forbidden'

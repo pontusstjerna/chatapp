@@ -11,14 +11,14 @@ export default (io, socket) => {
     // just like on the client side, we have a socket.on method that takes a callback function
     socket.on(SEND_MSG, (msg) => {
         console.log('Server received message: ' + msg);
-    
+
         // TODO: Add message to database
         let newMessage = new Message(JSON.parse(msg));
         newMessage.save().then(() => {
             console.log('Message successfully saved to db');
-            io.sockets.emit(RECEIVE_MSG, msg);
+            io.sockets.emit(RECEIVE_MSG, JSON.stringify(newMessage));
         }).catch(err => {
-            console.log('Unable to save message to db: ' + err.message);
+            console.log('Unable to save message to db: ', err);
         });
     });
 
@@ -27,15 +27,20 @@ export default (io, socket) => {
         .populate('user', '-password -__v')
         .exec()
         .then(docs => {
-            let resp = {
-                room: roomId,
-                messages: docs
+            let response = {
+                success: true,
+                data: {
+                    room: roomId,
+                    messages: docs
+                },
+                error: null
             };
-            
-            socket.emit(GET_MESSAGES, JSON.stringify(resp));
+            socket.emit(GET_MESSAGES, JSON.stringify(response));
         })
         .catch(err => {
-            socket.emit(ERROR, 'Unable to get all messages from room ' + roomId);
-        })
+            let errorResponse = {success: false, data: null, error: err};
+            socket.emit(GET_MESSAGES, JSON.stringify(errorResponse));
+        });
     });
+
 }
