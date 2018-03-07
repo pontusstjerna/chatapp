@@ -85,6 +85,8 @@ export default (socket) => {
                             success: true,
                             data: {
                                 msg: "User has logged in.",
+                                nickname: user[0].nickname,
+                                userId: user[0]._id,
                                 token: token
                             },
                             error: null
