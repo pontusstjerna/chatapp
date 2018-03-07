@@ -57,15 +57,15 @@ class ChatroomsView extends Component {
                     <div className="four wide column">
                         <div className="ui left vertical fluid menu">
                             <div className="item">
-                                <div className="header"><FormattedMessage id = "chatrooms.rooms" defaultMessage = "Rooms"/></div>
+                                <div className="header"><FormattedMessage id = "chatrooms.rooms"/></div>
                                 <div className="menu">
                                     {this.renderLinks()} 
                                 </div>
                             </div>
                             <div className="item">
-                                <div className="header"><FormattedMessage id = "chatrooms.manage" defaultMessage = "Manage"/></div>
+                                <div className="header"><FormattedMessage id = "chatrooms.manage"/></div>
                                 <div className="menu">
-                                    <NavLink className="item" to="/chat/addRoom"><FormattedMessage id = "chatrooms.addRooms" defaultMessage = "Add rooms"/></NavLink>
+                                    <NavLink className="item" to="/chat/addRoom"><FormattedMessage id = "chatrooms.addRooms"/></NavLink>
                                 </div>
                             </div>
                         </div>

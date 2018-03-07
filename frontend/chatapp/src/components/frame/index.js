@@ -29,10 +29,10 @@ export default class Frame extends Component {
                 <div className="ui container">
 
                     <div className="ui inverted menu">
-                            <NavLink className="item" exact to="/"><FormattedMessage id = "frame.home" defaultMessage = "Home"/></NavLink>
-                            <NavLink className="item" to="/chat"><FormattedMessage id = "frame.chat" defaultMessage = "Chat!"/></NavLink>
-                            <NavLink className="item" to="/about"><FormattedMessage id = "frame.about" defaultMessage = "About"/></NavLink>
-                            <NavLink className="item right" to="/register"><FormattedMessage id = "frame.register" defaultMessage = "Register"/></NavLink>
+                            <NavLink className="item" exact to="/"><FormattedMessage id = "frame.home"/></NavLink>
+                            <NavLink className="item" to="/chat"><FormattedMessage id = "frame.chat" /></NavLink>
+                            <NavLink className="item" to="/about"><FormattedMessage id = "frame.about" /></NavLink>
+                            <NavLink className="item right" to="/register"><FormattedMessage id = "frame.register" /></NavLink>
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}

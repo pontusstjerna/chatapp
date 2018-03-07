@@ -73,7 +73,7 @@ export default class ChatWindow extends Component {
                             />
                     </div>
                     <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                        <i className="icon edit"></i> <FormattedMessage id = "chatwindow.send" defaultMessage = "Send"/>
+                        <i className="icon edit"></i> <FormattedMessage id = "chatwindow.send"/>
                     </div>
                 </form>
             </div>

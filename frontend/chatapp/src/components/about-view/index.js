@@ -4,7 +4,7 @@ class AboutView extends Component {
     render() {
         return (
             <div>
-                <FormattedMessage id = "about.content" defaultMessage = "This is text about us."/>
+                <FormattedMessage id = "about.content"/>
             </div>
         );
     }

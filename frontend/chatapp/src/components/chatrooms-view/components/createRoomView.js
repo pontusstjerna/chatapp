@@ -30,7 +30,7 @@ class CreateRoomView extends Component {
 		<Format>
         {intl => (
             <div className="input-container">
-                <h3><FormattedMessage id = "chatwindow.createNewRoom" defaultMessage = "Create a new rooms"/></h3>
+                <h3><FormattedMessage id = "chatwindow.createNewRoom"/></h3>
                 <hr />
                 <input
                     className="input" 
@@ -46,7 +46,7 @@ class CreateRoomView extends Component {
                     value={this.state.description}
                     onChange={e => this.setState({description: e.target.value})}
                     />
-                <button onClick={() => this.addRoom()}><FormattedMessage id = "chatwindow.addRoom" defaultMessage = "Rooms"/> </button>
+                <button onClick={() => this.addRoom()}><FormattedMessage id = "chatwindow.addRoom"/> </button>
             </div>
         )}
         </Format>

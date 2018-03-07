@@ -7,7 +7,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="text-center">
-                <p className="footer"><FormattedMessage id = "footer.copyright" defaultMessage = "Copyright 2018 by Henrik, Henry, Johanna and Pontus"/></p>
+                <p className="footer"><FormattedMessage id = "footer.copyright"/></p>
             </div>
         )
     }
