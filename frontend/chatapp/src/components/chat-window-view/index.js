@@ -6,7 +6,8 @@ import {
     getMessages,
     registerReceiveMsg,
 } from '../../data/socket';
-import { Comment } from 'semantic-ui-react'
+import { Comment } from 'semantic-ui-react';
+import User from '../../model/User';
 
 
 export default class ChatWindowView extends Component {
@@ -16,7 +17,8 @@ export default class ChatWindowView extends Component {
         this.state = {
             messages: [],
             input: '',
-            user: null,
+            user: User.getNickname(),
+            userId: User.getUserId()
         };
     }
 
@@ -52,7 +54,7 @@ export default class ChatWindowView extends Component {
         this.setState({input: ''});
         sendMessage({
             text: this.state.input,
-            user: this.state.user,
+            user: this.state.userId,
             room: this.props.room._id,
         });
     }
