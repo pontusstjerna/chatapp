@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, NavLink, HashRouter } from 'react-router-dom';
-import UserSession from '../../session/usersession';
+import User from '../../model/User';
 
 import HomeView from '../home-view';
 import SidebarView from '../sidebar-view';
@@ -32,7 +32,7 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
-                            {UserSession.isLoggedIn() ? (<NavLink className="item" to="/settings">Settings</NavLink>) : (null) }
+                            {User.isLoggedIn() ? (<NavLink className="item" to="/settings">Settings</NavLink>) : (null) }
                             <NavLink className="item right" to="/login">Login</NavLink>
                             {/* <NavLink className="item right" to="/register">Register</NavLink> */}
                     </div>

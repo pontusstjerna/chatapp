@@ -4,13 +4,13 @@ import {
   updateUser,
   registerUpdateUser
 } from '../../data/socket';
-import UserSession from '../../session/usersession';
+import User from '../../model/User';
 
 class SettingsView extends Component {
   constructor(props) {
     super(props);
-    if (UserSession.isLoggedIn()) {
-      const user = UserSession.getUser();
+    if (User.isLoggedIn()) {
+      const user = User.getUser();
       this.state = {
         nickname: user.nickname,
         about: user.about,
@@ -38,7 +38,7 @@ class SettingsView extends Component {
   }
 
   render() {
-    if (UserSession.isLoggedIn()) {
+    if (User.isLoggedIn()) {
       return (
         <div>
           <Grid centered columns={3}>

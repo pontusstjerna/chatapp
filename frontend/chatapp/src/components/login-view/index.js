@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Form, Grid , Message} from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Grid,
+  Message,
+  Divider
+} from 'semantic-ui-react'
 
 class LoginView extends Component {
     constructor(props) {
@@ -25,29 +31,31 @@ class LoginView extends Component {
         return(
             <div>
                 <Grid centered columns={3}>
-                <Grid.Column>
-                    <h2>Login</h2>
-                    <Form error={this.state.formError} onSubmit={this.handleLogin}>
-                    <Form.Input 
-                        type="text" 
-                        placeholder="Nickname" 
-                        value={this.state.nickname} 
-                        onChange={e => this.setState({nickname: e.target.value})} 
-                    />
-                    <Form.Input 
-                        type="password" 
-                        placeholder="Password" 
-                        value={this.state.password} 
-                        onChange={e => this.setState({password: e.target.value})} 
-                    />
-                    <Button type='submit'>Login</Button>
-                    <Message
-                        error
-                        header='Invalid stuffelistuff'
-                        content={this.state.errorMsg}
-                    />
-                    </Form>
-                </Grid.Column>
+                    <Grid.Column>
+                        <h2>Login</h2>
+                        <Form error={this.state.formError} onSubmit={this.handleLogin}>
+                            <Form.Input
+                                type="text"
+                                placeholder="Nickname"
+                                value={this.state.nickname}
+                                onChange={e => this.setState({nickname: e.target.value})}
+                            />
+                            <Form.Input
+                                type="password"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={e => this.setState({password: e.target.value})}
+                            />
+                            <Button type='submit'>Login</Button>
+                            <Message
+                                error
+                                header='Invalid stuffelistuff'
+                                content={this.state.errorMsg}
+                            />
+                        </Form>
+                        <Divider hidden />
+                        <p>Not a member? <a href="#/register">Register</a> instead</p>
+                    </Grid.Column>
                 </Grid>
             </div>
         );
