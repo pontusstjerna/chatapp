@@ -17,6 +17,10 @@ class UserSession {
     getUser(){
         return this.user;
     }
+
+    isLoggedIn() {
+      return this.user !== null
+    }
 }
 
 export default new UserSession();

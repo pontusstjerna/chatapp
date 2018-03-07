@@ -3,6 +3,11 @@ import Mongoose from 'mongoose';
 class UserSchema extends Mongoose.Schema {
     constructor() {
         super({
+            email: {
+              type: String,
+              required: true,
+              max: 100,
+            },
             nickname: {
                 type: String,
                 required: true,
@@ -14,6 +19,10 @@ class UserSchema extends Mongoose.Schema {
                 required: true,
                 max: 100
             },
+            about: {
+              type: String,
+              max: 500,
+            }
         });
     }
 }

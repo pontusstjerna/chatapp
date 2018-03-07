@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, NavLink, HashRouter } from 'react-router-dom';
+import UserSession from '../../session/usersession';
 
 import HomeView from '../home-view';
 import ChatroomsView from '../chatrooms-view';
@@ -30,7 +31,7 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
-                            <NavLink className="item" to="/settings">Settings</NavLink>
+                            {UserSession.isLoggedIn() ? (<NavLink className="item" to="/settings">Settings</NavLink>) : (null) }
                             <NavLink className="item right" to="/register">Register</NavLink>
                     </div>
 
