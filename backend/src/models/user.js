@@ -5,7 +5,6 @@ class UserSchema extends Mongoose.Schema {
         super({
             email: {
               type: String,
-              required: true,
               max: 100,
             },
             nickname: {
