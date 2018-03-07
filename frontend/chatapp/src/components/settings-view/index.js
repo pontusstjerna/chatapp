@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid } from 'semantic-ui-react'
 import {
-  updateUser,
-  registerUpdateUser
+  updateUser
 } from '../../data/socket';
 import User from '../../model/User';
 
@@ -10,11 +9,10 @@ class SettingsView extends Component {
   constructor(props) {
     super(props);
     if (User.isLoggedIn()) {
-      const user = User.getUser();
       this.state = {
-        nickname: user.nickname,
-        about: user.about,
-        email: user.email,
+        nickname: User.getNickname,
+        about: User.getUserAbout,
+        email: User.getUserEmail,
       };
     }
     this.handleSubmit = this.handleSubmit.bind(this);

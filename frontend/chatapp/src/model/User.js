@@ -27,6 +27,7 @@ class User {
     }
 
     isLoggedIn() {
+        console.log(!!this.token);
         return !!this.token;
     }
 
@@ -38,8 +39,12 @@ class User {
         return this.userId;
     }
 
-    isLoggedIn() {
-      return this.user !== null
+    getUserAbout(){
+        return null;
+    }
+
+    getUserEmail(){
+        return null;
     }
 }
 

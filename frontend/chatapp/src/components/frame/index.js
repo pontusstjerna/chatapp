@@ -22,6 +22,11 @@ export default class Frame extends Component {
         };
     }
 
+    handleLogout(event){
+      User.logout();
+      alert("You were logged out");
+    }
+
     // This does the rendering of the component in html-style
     render() {
         return (
@@ -32,9 +37,12 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
-                            {User.isLoggedIn() ? (<NavLink className="item" to="/settings">Settings</NavLink>) : (null) }
-                            <NavLink className="item right" to="/login">Login</NavLink>
-                            {/* <NavLink className="item right" to="/register">Register</NavLink> */}
+                            {User.isLoggedIn() ?
+                              (<NavLink className="item" to="/settings">Settings</NavLink>) :
+                              (null) }
+                            {User.isLoggedIn() ?
+                              (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
+                              (<NavLink className="item right" to="/login">Login</NavLink>) }
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}
