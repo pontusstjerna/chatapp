@@ -1,7 +1,7 @@
 
-class UserSession {
+class User {
     constructor() {
-        this._type = 'UserSession';
+        this._type = 'User';
         this.user = null;
         this.token = null;
     }
@@ -19,4 +19,4 @@ class UserSession {
     }
 }
 
-export default new UserSession();
+export default new User();
