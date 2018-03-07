@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Divider} from 'semantic-ui-react'
 import { Route, NavLink, HashRouter } from 'react-router-dom';
 import User from '../../model/User';
 
@@ -55,7 +56,10 @@ export default class Frame extends Component {
                         <Route path="/login" component={LoginView} />
                         <Route path="/register" component={RegisterView} />
                     </div>
-
+                    <Divider hidden/>
+                    <Divider hidden/>
+                    <Divider hidden/>
+                    <Divider hidden/>
                     <Footer/>
                 </div>
             </HashRouter>
