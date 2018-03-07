@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router'
 import { Button, Form, Grid , Message, Divider} from 'semantic-ui-react'
 import User from '../../model/User'
 
@@ -10,6 +11,7 @@ class LoginView extends Component {
             formError: false,
             nickname: '',
             password: '',
+            fireRedirect: false,
         }
 
         this.handleLogin = this.handleLogin.bind(this);
@@ -18,6 +20,9 @@ class LoginView extends Component {
     handleLogin(event) {
         const {nickname, password}  = this.state;
         User.login(nickname, password)
+        .then(user => {
+          this.setState({ fireRedirect: true });
+        })
         .catch(err => {
             this.setState({formError: true});
         })
@@ -55,6 +60,9 @@ class LoginView extends Component {
                     <p>Not a member? <a href="#/register">Register</a> instead</p>
                 </Grid.Column>
                 </Grid>
+                {this.state.fireRedirect && (
+                  <Redirect to={'/'}/>
+                )}
             </div>
         );
     }

@@ -37,9 +37,9 @@ export default class Frame extends Component {
                             <NavLink className="item" exact to="/">Home</NavLink>
                             <NavLink className="item" to="/chat">Chat!</NavLink>
                             <NavLink className="item" to="/about">About</NavLink>
-                            {User.isLoggedIn() ?
-                              (<NavLink className="item" to="/settings">Settings</NavLink>) :
-                              (null) }
+                            {User.isLoggedIn() &&
+                              (<NavLink className="item" to="/settings">Settings</NavLink>)
+                            }
                             {User.isLoggedIn() ?
                               (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
                               (<NavLink className="item right" to="/login">Login</NavLink>) }
