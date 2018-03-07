@@ -5,7 +5,7 @@ import {
     sendMessage,
     getMessages,
     registerReceiveMsg,
-} from '../../../data/socket';
+} from '../../data/socket';
 import { Comment } from 'semantic-ui-react'
 
 
@@ -59,36 +59,6 @@ export default class ChatWindowView extends Component {
 
     render() {
         return (
-<<<<<<< HEAD:frontend/chatapp/src/components/chatroom-view/components/chatwindow.js
-            <div className="ui segment">
-
-                <MessageList messageArr={ this.state.messages }/>
-
-                <form className="ui reply form">
-                    <div className="field">
-                        <textarea
-                            className="chat-input"
-                            value={this.state.input}
-                            placeholder="Write a message... "
-                            autoFocus
-                            onChange={e => {
-                                if (e.target.value !== '\n') {
-                                    this.setState({input: e.target.value});
-                                }
-                            }}
-                            onKeyPress={e => {
-                                if (e.key === 'Enter') {
-                                    this.send();
-                                }
-                            }}
-                            />
-                    </div>
-                    <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                        <i className="icon edit"></i> Send
-                    </div>
-                </form>
-            </div>
-=======
             <div>
                 <h2>{"#" + this.props.room.name.replace(/_/g, ' ')}</h2>
                 <p>{this.props.room.description ? this.props.room.description : 'Public chat room'}</p>
@@ -121,7 +91,6 @@ export default class ChatWindowView extends Component {
                     </form>
                 </div>
             </div>
->>>>>>> 45902905059c18efb5e2bb7a20bd04b7b94817ce:frontend/chatapp/src/components/chat-window-view/index.js
         );
     }
 
@@ -134,29 +103,6 @@ const MessageList = (props) => {
                 { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
             </div>
         </div>
-    );
-}
-
-/*
-*   Stateless component for displaying a message
-*   props:  message= message Object
-*/
-const MessageItem = (props) => {
-    return (
-        <Comment key={ props.item._id }>
-            <Comment.Avatar src={require("./placeholder-img/matt.jpg")} />
-            <Comment.Content>
-                <Comment.Author as='a'>{ props.item.user ? props.item.user : 'Anonymous' }</Comment.Author>
-                <Comment.Metadata>
-                    <div>{ formatTimestamp(props.item.time_stamp) }</div>
-                </Comment.Metadata>
-
-                <Comment.Metadata>
-                    { lastPosted(props.item.time_stamp) }
-                </Comment.Metadata>
-                <Comment.Text>{ props.item.text }</Comment.Text>
-            </Comment.Content>
-        </Comment>
     );
 }
 
@@ -187,8 +133,6 @@ function lastPosted(time){
     var ta = require('time-ago');
     return ta.ago(time);
 }
-<<<<<<< HEAD:frontend/chatapp/src/components/chatroom-view/components/chatwindow.js
-=======
 
 function generateIcon(user) {
     let hashFromUser = user? user._id : 'oiaw590uif0u934598uerue489tiuh';
@@ -217,4 +161,3 @@ const MessageItem = (props) => {
         </Comment>
     );
 }
->>>>>>> 45902905059c18efb5e2bb7a20bd04b7b94817ce:frontend/chatapp/src/components/chat-window-view/index.js
