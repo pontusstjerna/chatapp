@@ -114,22 +114,30 @@ export default (socket) => {
           user.about = about;
           user.save().then(result => {
             console.log(result);
-            socket.emit(USER_UPDATE, {
-                status: 201,
-                message: 'User updated successfully',
-            });
+            let response = {
+              success: true,
+              data: {
+                  msg: "User has been updated.",
+              },
+              error: null
+            }
+            socket.emit(USER_UPDATE, JSON.stringify(response));
           }).catch(err => {
               console.log(err);
-              socket.emit(ERROR, {
-                  status: 500,
-                  msg: err.description,
-              });
+              let error = {
+                success: false,
+                data: null,
+                error: "Update failed"
+              };
+              socket.emit(USER_LOGIN, JSON.stringify(error));
           });
         } else {
-          socket.emit(ERROR, {
-              status: 404,
-              msg: "user not found",
-          });
+          let error = {
+            success: false,
+            data: null,
+            error: "Update failed"
+          };
+          socket.emit(USER_LOGIN, JSON.stringify(error));
         }
       });
     });

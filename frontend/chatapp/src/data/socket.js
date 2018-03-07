@@ -115,10 +115,16 @@ export const loginUser = (user) => {
 export const updateUser = (user) => {
   console.log('Emitting USER_UPDATE: ' + JSON.stringify(user));
   socket.emit(events.USER_UPDATE, user);
-}
 
-export const registerUpdateUser = (listener) => {
-  socket.on(events.USER_UPDATE, result => {
-    listener(result);
+  return new Promise((resolve, reject) => {
+    socket.on(events.USER_UPDATE, response => {
+      let res = JSON.parse(response);
+      if (res.success) {
+        resolve(res.data);
+      } else {
+        console.log("#updateUser:reject: ", res.error)
+        reject(res.error);
+      }
+    })
   });
 }

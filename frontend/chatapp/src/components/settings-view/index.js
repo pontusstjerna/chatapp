@@ -20,19 +20,20 @@ class SettingsView extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    registerUpdateUser((result) => {
-      alert('User Updated!');
-      console.log('User Updated');
-    })
-  }
-
   handleSubmit(event) {
-    updateUser({
+    let user = {
       email: this.state.email,
       nickname: this.state.nickname,
-      about: this.state.about,
-    });
+      about: this.state.about
+    };
+    updateUser(user)
+      .then(updatedUser => {
+          alert("User updated");
+          console.log("Updated User: ", updateUser);
+      })
+      .catch(err => {
+          console.log("Failed to update: ", err);
+      })
     event.preventDefault();
   }
 
