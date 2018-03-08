@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid , Message} from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Grid,
+  Message
+} from 'semantic-ui-react'
 import {
   registerUser
 } from '../../data/socket';
@@ -11,6 +16,7 @@ class RegisterView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       nickname: '',
       password: '',
       confirmPassword: '',
@@ -21,10 +27,6 @@ class RegisterView extends Component {
 
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-
   }
 
   handlePswdConfChange(event) {
@@ -38,7 +40,11 @@ class RegisterView extends Component {
     if (this.state.passwordConf) {
       console.log('A user was submitted: ' + this.state.nickname);
 
-      let user = {nickname: this.state.nickname, password: this.state.password};
+      let user = {
+        email: this.state.email,
+        nickname: this.state.nickname,
+        password: this.state.password,
+      };
       registerUser(user)
         .then(savedUser => {
             console.log("Registered User: ", savedUser);
@@ -103,40 +109,6 @@ class RegisterView extends Component {
       </Format>
     );
   }
-
-/*  render() {
-    return (
-      <Format>
-      {intl => (
-	      <div>
-              <Grid centered columns={3}>
-              <Grid.Column>
-                  <h2><FormattedMessage id = "register.send" defaultMessage = "Send"/></h2>
-              <Form error={this.state.formError} onSubmit={this.handleSubmit}>
-              <Form.Input 
-                  type="text" 
-                  placeholder={intl.formatMessage({id:'register.nickname'})}
-                  value={this.state.nickname} onChange={this.handleNickChange} />
-              <Form.Input 
-                  type="password"
-                  placeholder={intl.formatMessage({id:'register.password'})} value={this.state.password} onChange={this.handlePswdChange} />
-              <Form.Input error={!this.state.passwordConf} 
-                  type="password" 
-                  placeholder={intl.formatMessage({id:'register.confirmPassword'})} value={this.state.confirmPassword} onChange={this.handlePswdConfChange} />
-              <Button type='submit'><FormattedMessage id = "register.send"/></Button>
-              <Message
-                error
-                header='Action Forbidden'
-                content={this.state.errorMsg}
-              />
-            </Form>
-            </Grid.Column>
-            </Grid>
-        </div>
-	  )}
-      </Format>
-    );
-  }*/
   
 }
 

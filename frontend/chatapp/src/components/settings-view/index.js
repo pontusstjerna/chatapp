@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid } from 'semantic-ui-react'
 import {
-  updateUser
-} from '../../data/socket';
+  Button,
+  Form,
+  Grid
+} from 'semantic-ui-react'
 import User from '../../model/User';
 
 class SettingsView extends Component {
@@ -10,9 +11,9 @@ class SettingsView extends Component {
     super(props);
     if (User.isLoggedIn()) {
       this.state = {
-        nickname: User.getNickname,
-        about: User.getUserAbout,
-        email: User.getUserEmail,
+        nickname: User.getNickname(),
+        about: User.getUserAbout(),
+        email: User.getUserEmail(),
       };
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,14 +25,8 @@ class SettingsView extends Component {
       nickname: this.state.nickname,
       about: this.state.about
     };
-    updateUser(user)
-      .then(updatedUser => {
-          alert("User updated");
-          console.log("Updated User: ", updateUser);
-      })
-      .catch(err => {
-          console.log("Failed to update: ", err);
-      })
+    User.update(user);
+    alert("Your settings were updated!");
     event.preventDefault();
   }
 

@@ -29,6 +29,7 @@ export default (socket) => {
 
                     } else {
                         let newUser = new User({
+                            email: uf.email,
                             nickname: uf.nickname,
                             password: hash
                         });
@@ -85,7 +86,9 @@ export default (socket) => {
                             success: true,
                             data: {
                                 msg: "User has logged in.",
+                                email: user[0].email,
                                 nickname: user[0].nickname,
+                                about: user[0].about,
                                 userId: user[0]._id,
                                 token: token
                             },
@@ -120,6 +123,9 @@ export default (socket) => {
               success: true,
               data: {
                   msg: "User has been updated.",
+                  email: email,
+                  nickname: nickname,
+                  about: about,
               },
               error: null
             }
