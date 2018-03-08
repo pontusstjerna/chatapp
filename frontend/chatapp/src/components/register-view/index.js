@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid , Message} from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Grid,
+  Message
+} from 'semantic-ui-react'
 import {
   registerUser
 } from '../../data/socket';
@@ -9,6 +14,7 @@ class RegisterView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       nickname: '',
       password: '',
       confirmPassword: '',
@@ -19,10 +25,6 @@ class RegisterView extends Component {
 
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-
   }
 
   handlePswdConfChange(event) {
@@ -36,7 +38,11 @@ class RegisterView extends Component {
     if (this.state.passwordConf) {
       console.log('A user was submitted: ' + this.state.nickname);
 
-      let user = {nickname: this.state.nickname, password: this.state.password};
+      let user = {
+        email: this.state.email,
+        nickname: this.state.nickname,
+        password: this.state.password,
+      };
       registerUser(user)
         .then(savedUser => {
             console.log("Registered User: ", savedUser);
@@ -60,6 +66,12 @@ class RegisterView extends Component {
               Register user
             </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
+              <Form.Input
+                type="text"
+                placeholder="Email"
+                value={this.state.email}
+                onChange={e => this.setState({email: e.target.value})}
+              />
               <Form.Input
                 type="text"
                 placeholder="Nickname"
