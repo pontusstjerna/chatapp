@@ -14,7 +14,7 @@ class HomeView extends Component {
                 <h3><FormattedMessage id = "home.heardOfChatapp"  /></h3>
                 <Grid centered columns={3}>
                   <Grid.Column className="news">
-                    <h3>News</h3>
+                    <h3><FormattedMessage id = "home.news" /></h3>
                     <ul>
                         <li><FormattedMessage id = "home.frontend" /></li>
                         <li><FormattedMessage id = "home.addRoom" /></li>
