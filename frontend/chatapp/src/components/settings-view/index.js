@@ -4,9 +4,6 @@ import {
   Form,
   Grid
 } from 'semantic-ui-react'
-import {
-  updateUser
-} from '../../data/socket';
 import User from '../../model/User';
 
 class SettingsView extends Component {
@@ -28,14 +25,8 @@ class SettingsView extends Component {
       nickname: this.state.nickname,
       about: this.state.about
     };
-    updateUser(user)
-      .then(updatedUser => {
-          alert("User updated");
-          console.log("Updated User: ", updateUser);
-      })
-      .catch(err => {
-          console.log("Failed to update: ", err);
-      })
+    User.update(user);
+    alert("Your settings were updated!");
     event.preventDefault();
   }
 

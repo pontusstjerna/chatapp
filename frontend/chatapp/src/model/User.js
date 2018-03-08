@@ -32,6 +32,17 @@ class User {
         this.token = null;
     }
 
+    update(user) {
+      console.log("User.update");
+      return socket.updateUser(user)
+        .then((res) => {
+          //if succesful
+          this.email = user.email;
+          this.nickname = user.nickname;
+          this.about = user.about;
+        })
+    }
+
     isLoggedIn() {
         return !!this.token;
     }
