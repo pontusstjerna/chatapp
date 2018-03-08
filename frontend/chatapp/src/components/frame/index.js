@@ -47,7 +47,7 @@ export default class Frame extends Component {
                             }
                             {User.isLoggedIn() ?
                               (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
-                              (<NavLink className="item right" to="/login">Login</NavLink>) }
+                              (<NavLink className="item right" to="/login"><FormattedMessage id = "frame.login" /></NavLink>) }
                     </div>
 
                     { /* PUT ALL CONTENT HERE */}

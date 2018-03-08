@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import '../../styles/home.css';
-import { FormattedMessage } from 'react-intl';
 import User from '../../model/User'
+import { FormattedMessage } from 'react-intl';
 
 class HomeView extends Component {
 

@@ -53,17 +53,66 @@ class RegisterView extends Component {
     event.preventDefault();
   }
 
-  render() {
+ render() {
     return (
-      <div>
       <Format>
-        {intl => (
-          <Grid centered columns={3}>
-            <Grid.Column>
-              <h2>
-                <FormattedMessage id = "register.send" defaultMessage = "Send"/>
-              </h2>
+      {intl => (
+      <div>
+        <Grid centered columns={3}>
+          <Grid.Column>
+            <h2>
+              <FormattedMessage id = "register.userRegister"/>
+            </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
+              <Form.Input
+                type="text"
+                placeholder={intl.formatMessage({id:'register.email'})}
+                value={this.state.email}
+                onChange={e => this.setState({email: e.target.value})}
+              />
+              <Form.Input
+                type="text"
+                placeholder={intl.formatMessage({id:'register.nickname'})}
+                value={this.state.nickname}
+                onChange={e => this.setState({nickname: e.target.value})}
+              />
+              <Form.Input
+                type="password"
+                placeholder={intl.formatMessage({id:'register.password'})}
+                value={this.state.password}
+                onChange={e => this.setState({password: e.target.value})}
+              />
+              <Form.Input
+                error={!this.state.passwordConf}
+                type="password"
+                placeholder={intl.formatMessage({id:'register.confirmPassword'})}
+                value={this.state.confirmPassword}
+                onChange={this.handlePswdConfChange}
+              />
+              <Button type='submit'><FormattedMessage id = "register.send"/></Button>
+              <Message
+                error
+                header='Action Forbidden'
+                content={this.state.errorMsg}
+              />
+            </Form>
+          </Grid.Column>
+        </Grid>
+      </div>
+	  )}
+      </Format>
+    );
+  }
+
+/*  render() {
+    return (
+      <Format>
+      {intl => (
+	      <div>
+              <Grid centered columns={3}>
+              <Grid.Column>
+                  <h2><FormattedMessage id = "register.send" defaultMessage = "Send"/></h2>
+              <Form error={this.state.formError} onSubmit={this.handleSubmit}>
               <Form.Input 
                   type="text" 
                   placeholder={intl.formatMessage({id:'register.nickname'})}
@@ -81,13 +130,14 @@ class RegisterView extends Component {
                 content={this.state.errorMsg}
               />
             </Form>
-          </Grid.Column>
-        </Grid>
-        )}
-        </Format>
-      </div>
+            </Grid.Column>
+            </Grid>
+        </div>
+	  )}
+      </Format>
     );
-  }
+  }*/
+  
 }
 
 export default RegisterView
