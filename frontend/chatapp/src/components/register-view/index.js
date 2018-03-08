@@ -95,7 +95,7 @@ class RegisterView extends Component {
                 value={this.state.confirmPassword}
                 onChange={this.handlePswdConfChange}
               />
-              <Button type='submit'><FormattedMessage id = "register.send"/></Button>
+              <Button type='submit'><FormattedMessage id = "register.submit"/></Button>
               <Message
                 error
                 header='Action Forbidden'

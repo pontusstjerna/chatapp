@@ -53,7 +53,7 @@ class LoginView extends Component {
                         value={this.state.password}
                         onChange={e => this.setState({password: e.target.value})}
                     />
-                    <Button type='submit'><FormattedMessage id = "login.send"/></Button>
+                    <Button type='submit'><FormattedMessage id = "login.submit"/></Button>
                     <Message
                         error
                         header='Invalid stuffelistuff'

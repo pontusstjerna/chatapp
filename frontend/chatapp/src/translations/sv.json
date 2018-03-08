@@ -1,4 +1,8 @@
 {
+    "settings.settings": "Inställningar",
+    "settings.nickname": "Smeknamn",
+    "settings.about": "Om mig",
+    "settings.save": "Spara",
     "frame.home": "Start",
     "frame.chat": "Chatta!",
     "frame.about": "Om oss",
@@ -29,12 +33,12 @@
     "register.nickname": "Smeknamn",
     "register.password": "Lösenord",
     "register.confirmPassword": "Bekräfta lösenord",
-    "register.send": "Skicka",
+    "register.submit": "Registrera",
     "login.userRegister": "Registrera användare",
     "login.nickname": "Smeknamn",
     "login.password": "Lösenord",
     "login.confirmPassword": "Bekräfta lösenord",
-    "login.send": "Skicka",
+    "login.submit": "Logga in",
     "login.notAMember": "Inte en medlem?",
     "login.register": "Registrera",
     "login.instead": "istället"

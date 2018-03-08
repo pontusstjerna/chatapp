@@ -1,4 +1,8 @@
 {
+    "settings.settings": "Inställningar",
+    "settings.nickname": "Nickname",
+    "settings.about": "About me",
+    "settings.save": "Save",
     "frame.home": "Home",
     "frame.chat": "Chat!",
     "frame.about": "About",
@@ -29,12 +33,12 @@
     "register.nickname": "Nickname",
     "register.password": "Password",
     "register.confirmPassword": "Confirm password",
-    "register.send": "Send",
+    "register.submit": "Register",
     "login.userRegister": "Register user",
     "login.nickname": "Nickname",
     "login.password": "Password",
     "login.confirmPassword": "Confirm password",
-    "login.send": "Send",
+    "login.submit": "Login",
     "login.notAMember": "Not a member?",
     "login.register": "Register",
     "login.instead": "instead"
