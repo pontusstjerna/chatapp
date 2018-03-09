@@ -1,4 +1,5 @@
 import User from '../models/user';
+import AnonUser from '../models/anonuser';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
@@ -6,6 +7,7 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     USER_UPDATE,
+    ANON_CREATE,
     ERROR,
 } from '../socket/events';
 
@@ -148,5 +150,27 @@ export default (socket) => {
           socket.emit(USER_LOGIN, JSON.stringify(error));
         }
       });
+    });
+
+    socket.on(ANON_CREATE, (name) => {
+        let anonName = JSON.parse(name);
+        console.log('Creating AnonUser: ', anonName);
+
+        let newAnon = new AnonUser({nickname: anonName});
+        newAnon.save()
+        .then(result => {
+            console.log("Saved AnonUser:", result);
+            socket.emit(ANON_CREATE, JSON.stringify({
+                success: true,
+                data: newAnon,
+                error: null
+            }));
+        })
+        .catch(err => {
+            console.log(err);
+            let error = { success: false, data: null, error: err };
+            socket.emit(ANON_CREATE, JSON.stringify(error));
+        });
+
     });
 }

@@ -3,6 +3,7 @@ import * as events from './events';
 import * as constants from './constants';
 
 const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
+
 socket.on(events.ERROR, msg => {
     alert(msg);
     console.log(msg);
@@ -68,11 +69,22 @@ export const registerNewRoom = (listener) => {
     })
 }
 
-export const registerReceiveMsg = (listener) => {
-    socket.on(events.RECEIVE_MSG, message => {
-        listener(JSON.parse(message));
-    })
+
+let ObservingComponent = null;
+
+export const registerReceiveMsg = (component) => {
+    ObservingComponent = component;
 }
+
+export const unregisterReceiveMsg = () => {
+    ObservingComponent = null;
+}
+
+socket.on(events.RECEIVE_MSG, msg => {
+    if (ObservingComponent != null) {
+        ObservingComponent.onReceiveMsg(JSON.parse(msg));
+    }
+});
 
 /* USER */
 
@@ -87,6 +99,23 @@ export const registerUser = (user) => {
                 resolve(res.data);
             } else {
                 console.log("#registerUser:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
+    });
+}
+
+export const createAnonUser = (user) => {
+    socket.emit(events.ANON_CREATE, JSON.stringify(user));
+
+    return new Promise((resolve, reject) => {
+        socket.on(events.ANON_CREATE, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data);
+            } else {
+                console.log("#registerAnonUser:reject: ", res.error)
                 reject(res.error);
             }
         })
