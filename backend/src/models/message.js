@@ -13,8 +13,12 @@ const MessageSchema = new Schema(
             default: Date.now
         },
         user: {
-            type: Schema.ObjectId,
-            ref: 'User'
+            kind: String,
+            item: {
+                type: Schema.ObjectId,
+                refPath: 'user.kind',
+                required: true
+            }
         },
         room: {
             type: Schema.ObjectId,

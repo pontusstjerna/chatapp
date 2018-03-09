@@ -19,8 +19,8 @@ class UserSchema extends Mongoose.Schema {
                 max: 100
             },
             about: {
-              type: String,
-              max: 500,
+                type: String,
+                max: 500,
             }
         });
     }

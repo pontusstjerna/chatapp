@@ -1,11 +1,12 @@
 import * as socket from '../data/socket'
+const shortid = require('shortid');
 
 class User {
     constructor() {
         this._type = 'User';
         this.userId = null;
         this.email = "";
-        this.nickname = "Anonymous";
+        this.nickname = "Anonymous(" + shortid.generate() + ")";
         this.about = "";
         this.token = null;
     }
@@ -27,7 +28,7 @@ class User {
     logout() {
         this.userId = null;
         this.email = "";
-        this.nickname = "Anonymous";
+        this.nickname = "Anonymous(" + shortid.generate() + ")";
         this.about = "";
         this.token = null;
     }

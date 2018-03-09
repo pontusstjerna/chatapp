@@ -14,17 +14,24 @@ export default (io, socket) => {
 
         // TODO: Add message to database
         let newMessage = new Message(JSON.parse(msg));
-        newMessage.save().then(() => {
+        newMessage.save()
+        .then(() => {
             console.log('Message successfully saved to db');
-            io.sockets.emit(RECEIVE_MSG, JSON.stringify(newMessage));
-        }).catch(err => {
+
+            Message.findById(newMessage._id)
+            .populate('user.item', 'nickname')
+            .exec((err, populatedMessage) => {
+                io.sockets.emit(RECEIVE_MSG, JSON.stringify(populatedMessage));
+            })
+        })
+        .catch(err => {
             console.log('Unable to save message to db: ', err);
         });
     });
 
     socket.on(GET_MESSAGES, (roomId) => {
         Message.find({room: roomId})
-        .populate('user', '-password -__v')
+        .populate('user.item', 'nickname')
         .exec()
         .then(docs => {
             let response = {
