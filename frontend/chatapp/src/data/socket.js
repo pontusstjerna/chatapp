@@ -3,6 +3,7 @@ import * as events from './events';
 import * as constants from './constants';
 
 const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
+
 socket.on(events.ERROR, msg => {
     alert(msg);
     console.log(msg);
@@ -62,17 +63,38 @@ export const createRoom = (room) => {
     socket.emit(events.CREATE_ROOM, JSON.stringify(room));
 }
 
-export const registerNewRoom = (listener) => {
-    socket.on(events.CREATE_ROOM, response => {
-        listener(JSON.parse(response));
-    })
+let ObserverReceiveNewRoom = null;
+
+export const registerReceiveNewRoom = (component) => {
+    ObserverReceiveNewRoom = component;
 }
 
-export const registerReceiveMsg = (listener) => {
-    socket.on(events.RECEIVE_MSG, message => {
-        listener(JSON.parse(message));
-    })
+export const unregisterReceiveNewRoom = () => {
+    ObserverReceiveNewRoom = null;
 }
+
+socket.on(events.CREATE_ROOM, room => {
+    if (ObserverReceiveNewRoom != null) {
+        ObserverReceiveNewRoom.onReceiveNewRoom(JSON.parse(room));
+    }
+});
+
+
+let ObserverReceiveMsg = null;
+
+export const registerReceiveMsg = (component) => {
+    ObserverReceiveMsg = component;
+}
+
+export const unregisterReceiveMsg = () => {
+    ObserverReceiveMsg = null;
+}
+
+socket.on(events.RECEIVE_MSG, msg => {
+    if (ObserverReceiveMsg != null) {
+        ObserverReceiveMsg.onReceiveMsg(JSON.parse(msg));
+    }
+});
 
 /* USER */
 
@@ -87,6 +109,23 @@ export const registerUser = (user) => {
                 resolve(res.data);
             } else {
                 console.log("#registerUser:reject: ", res.error)
+                reject(res.error);
+            }
+        })
+        //TODO: reject after a set timeout if we get no response from server
+    });
+}
+
+export const createAnonUser = (user) => {
+    socket.emit(events.ANON_CREATE, JSON.stringify(user));
+
+    return new Promise((resolve, reject) => {
+        socket.on(events.ANON_CREATE, response => {
+            let res = JSON.parse(response);
+            if (res.success) {
+                resolve(res.data);
+            } else {
+                console.log("#registerAnonUser:reject: ", res.error)
                 reject(res.error);
             }
         })
@@ -129,6 +168,24 @@ export const updateUser = (user) => {
         resolve(res.data);
       } else {
         console.log("#updateUser:reject: ", res.error)
+        reject(res.error);
+      }
+    })
+  });
+}
+
+export const getUserInfo = (userId) => {
+  console.log('Emitting USER_INFO: ' + JSON.stringify(userId));
+  socket.emit(events.USER_INFO, userId);
+
+  return new Promise((resolve, reject) => {
+    socket.on(events.USER_INFO, response => {
+      let res = JSON.parse(response);
+      console.log(response);
+      if (res.success) {
+        resolve(res.data);
+      } else {
+        console.log("#getUserInfo:reject: ", res.error)
         reject(res.error);
       }
     })

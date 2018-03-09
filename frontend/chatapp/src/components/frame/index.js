@@ -51,7 +51,8 @@ export default class Frame extends Component {
     render() {
         return (
             <HashRouter>
-                <div className="ui container">
+                <div>
+                    <div className="ui container">
 
                     <div className="ui inverted menu">
 
@@ -66,15 +67,15 @@ export default class Frame extends Component {
                               (<NavLink className="item right" to="/login"><FormattedMessage id = "frame.login" /></NavLink>) }
                     </div>
 
-                    { /* PUT ALL CONTENT HERE */}
+                        <div className="content page-content">
+                            <Route exact path="/" component={HomeView} />
+                            <Route path="/chat" component={SidebarView} />
+                            <Route path="/about" component={AboutView} />
+                            <Route path="/settings" component={SettingsView} />
+                            <Route path="/login" component={LoginView} />
+                            <Route path="/register" component={RegisterView} />
+                        </div>
 
-                    <div className="content page-content">
-                        <Route exact path="/" component={HomeView} />
-                        <Route path="/chat" component={SidebarView} />
-                        <Route path="/about" component={AboutView} />
-                        <Route path="/settings" component={SettingsView} />
-                        <Route path="/login" component={LoginView} />
-                        <Route path="/register" component={RegisterView} />
                     </div>
                     <Footer/>
                 </div>

@@ -1,4 +1,5 @@
 import User from '../models/user';
+import AnonUser from '../models/anonuser';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
@@ -6,6 +7,8 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     USER_UPDATE,
+    USER_INFO,
+    ANON_CREATE,
     ERROR,
 } from '../socket/events';
 
@@ -109,44 +112,115 @@ export default (socket) => {
             });
     });
 
-    socket.on(USER_UPDATE, ({email, nickname, about}) => {
-      console.log('Updating : ' + nickname);
-      User.findOne({ email: email }).then(user => {
-        console.log(JSON.stringify(user));
-        if (user) {
-          user.email = email;
-          user.nickname = nickname;
-          user.about = about;
-          user.save().then(result => {
-            console.log(result);
-            let response = {
-              success: true,
-              data: {
-                  msg: "User has been updated.",
-                  email: email,
-                  nickname: nickname,
-                  about: about,
-              },
-              error: null
+    socket.on(USER_UPDATE, ({token, id, email, nickname, about}) => {
+        console.log('Updating : ' + nickname);
+        try {
+            // check that token is valid and that it has the same id as the user to be updated.
+            let decoded = jwt.verify(token, JWT_KEY);
+            console.log("DECODED:", decoded);
+            if (decoded.userId != id) {
+                let error = { success: false, data: null, error: "Not Authorized" };
+                socket.emit(USER_UPDATE, JSON.stringify(error));
+                return;
             }
-            socket.emit(USER_UPDATE, JSON.stringify(response));
-          }).catch(err => {
-              console.log(err);
-              let error = {
-                success: false,
-                data: null,
-                error: "Update failed"
-              };
-              socket.emit(USER_LOGIN, JSON.stringify(error));
-          });
-        } else {
-          let error = {
-            success: false,
-            data: null,
-            error: "Update failed"
-          };
-          socket.emit(USER_LOGIN, JSON.stringify(error));
+        } catch (err) {
+            let error = { success: false, data: null, error: err };
+            socket.emit(USER_UPDATE, JSON.stringify(error));
+            return;
         }
-      });
+
+          User.findOne({ email: email }).then(user => {
+            console.log(JSON.stringify(user));
+            if (user) {
+                user.email = email;
+                user.nickname = nickname;
+                user.about = about;
+                user.save().then(result => {
+                    console.log(result);
+                    let response = {
+                        success: true,
+                        data: {
+                            msg: "User has been updated.",
+                            email: email,
+                            nickname: nickname,
+                            about: about,
+                        },
+                        error: null
+                    }
+                    socket.emit(USER_UPDATE, JSON.stringify(response));
+                    return;
+                }).catch(err => {
+                    console.log(err);
+                    let error = {
+                        success: false,
+                        data: null,
+                        error: "Update failed"
+                    };
+                    socket.emit(USER_UPDATE, JSON.stringify(error));
+                    return;
+                });
+            } else {
+                let error = {
+                    success: false,
+                    data: null,
+                    error: "Update failed"
+                };
+                socket.emit(USER_UPDATE, JSON.stringify(error));
+                return;
+            }
+        });
+    });
+
+    socket.on(USER_INFO, (userId) => {
+        User.findOne({_id: userId}).then(user => {
+            if(user) {
+              socket.emit(USER_INFO, JSON.stringify({
+                success: true,
+                data: {
+                  nickname: user.nickname,
+                  about: user.about
+                }
+              }));
+            } else {
+              let anonymousUser = {
+                  success: true,
+                  data: {
+                      nickname: 'Anonymous',
+                      about: "You don't me",
+                  },
+              };
+              socket.emit(USER_INFO, JSON.stringify(anonymousUser));
+            }
+        }).catch(err => {
+          console.log('ARGH');
+          let error = {
+              success: false,
+              data: null,
+              error: "User info fetch failed"
+          };
+          socket.emit(USER_INFO, JSON.stringify(error));
+        });
+    });
+
+    socket.on(ANON_CREATE, (name) => {
+        let anonName = JSON.parse(name);
+        console.log('Creating AnonUser: ', anonName);
+
+        let newAnon = new AnonUser({nickname: anonName});
+        newAnon.save()
+        .then(result => {
+            console.log("Saved AnonUser:", result);
+            socket.emit(ANON_CREATE, JSON.stringify({
+                success: true,
+                data: newAnon,
+                error: null
+            }));
+        })
+        .catch(err => {
+            console.log(err);
+            let error = { success: false, data: null, error: err };
+            socket.emit(ANON_CREATE, JSON.stringify(error));
+        });
+
     });
 }

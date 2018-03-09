@@ -27,8 +27,15 @@ class SettingsView extends Component {
       nickname: this.state.nickname,
       about: this.state.about
     };
-    User.update(user);
-    alert("Your settings were updated!");
+    User.updateSettings(user).then(() => {
+        console.log("Settings updated");
+        this.setState({
+            nickname: User.getNickname(),
+            about: User.getUserAbout(),
+            email: User.getUserEmail()
+        });
+        alert('Successfully updated user settings!');
+    });
     event.preventDefault();
   }
 

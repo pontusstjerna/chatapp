@@ -5,11 +5,14 @@ import {
     sendMessage,
     getMessages,
     registerReceiveMsg,
+    unregisterReceiveMsg,
+    createAnonUser
 } from '../../data/socket';
 import { Comment } from 'semantic-ui-react';
 import User from '../../model/User';
 import { FormattedMessage  } from 'react-intl';
 import { Format } from 'react-intl-format';
+import UserView from '../user-view';
 
 export default class ChatWindowView extends Component {
     constructor(props) {
@@ -18,19 +21,14 @@ export default class ChatWindowView extends Component {
         this.state = {
             messages: [],
             input: '',
-            user: User.getNickname(),
-            userId: User.getUserId()
+            selectUser: null,
         };
+        this.selectUser = this.selectUser.bind(this);
     }
 
     componentDidMount() {
-        registerReceiveMsg(newMessage => {
-            console.log("received msg: ", newMessage)
-            let messagesCopy = this.state.messages.slice();
-            messagesCopy.push(newMessage);
-            this.setState({messages: messagesCopy});
-        })
-
+        console.log("componentDidMount()");
+        registerReceiveMsg(this);
         this.getMessagesInRoom(this.props.room._id);
     }
 
@@ -38,7 +36,15 @@ export default class ChatWindowView extends Component {
     *   Called right before components is destroyed. Do cleanup here on listeners etc...
     */
     componentWillUnmount() {
+        console.log("componentWillUnmount()");
+        unregisterReceiveMsg();
+    }
 
+    onReceiveMsg(newMessage) {
+        console.log("onReceiveMsg: ", newMessage)
+        let messagesCopy = this.state.messages.slice();
+        messagesCopy.push(newMessage);
+        this.setState({messages: messagesCopy});
     }
 
     getMessagesInRoom(roomId) {
@@ -51,13 +57,46 @@ export default class ChatWindowView extends Component {
     }
 
     send() {
-        console.log('Sent: ' + this.state.input);
-        this.setState({input: ''});
-        sendMessage({
-            text: this.state.input,
-            user: this.state.userId,
-            room: this.props.room._id,
-        });
+        if (User.getUserId() == null) {
+            //Is anonymous and have no userid, create AnonUser and post with that id
+            createAnonUser(User.getNickname())
+            .then(anonUser => {
+                User.userId = anonUser._id;
+                console.log('Created ['+ User.userId +']Sending msg:' +  this.state.input);
+                sendMessage({
+                    text: this.state.input,
+                    user: {
+                        kind: "AnonUser",
+                        item: User.getUserId()
+                    },
+                    room: this.props.room._id,
+                });
+                this.setState({input: ''});
+            })
+            .catch(err => {
+                console.log("createAnonUser:", err);
+            })
+        } else {
+            let kindOfUser = "User";
+            if (!User.isLoggedIn()) {
+                kindOfUser = "AnonUser";
+            }
+            // Post with existing user
+            console.log('Sending msg:', this.state.input);
+            sendMessage({
+                text: this.state.input,
+                user: {
+                    kind: kindOfUser,
+                    item: User.getUserId()
+                },
+                room: this.props.room._id,
+            });
+            this.setState({input: ''});
+        }
+    }
+
+    selectUser(user){
+      this.setState({selectUser: user});
     }
 
     render() {
@@ -65,11 +104,18 @@ export default class ChatWindowView extends Component {
             <Format>
             {intl => (
             <div>
+                {this.state.selectUser &&
+                    <UserView
+                        user={this.state.selectUser}
+                        onClose={() => this.setState({selectUser: null})}
+                        generateIcon={generateIcon}
+                        />
+                }
                 <h2>{"#" + this.props.room.name.replace(/_/g, ' ')}</h2>
                 <p>{this.props.room.description ? this.props.room.description : 'Public chat room'}</p>
                     <div className="ui segment">
 
-                    <MessageList messageArr={ this.state.messages }/>
+                    <MessageList messageArr={ this.state.messages } selectUser={this.selectUser}/>
 
                     <form className="ui reply form">
                         <div className="field">
@@ -107,7 +153,7 @@ const MessageList = (props) => {
     return (
         <div className="ui scroll">
             <div className="ui comments">
-                { props.messageArr.map((msg) => <MessageItem key={ msg._id } item={ msg }/>) }
+                { props.messageArr.map((msg) => <MessageItem key={ msg._id } mItem={ msg } selectUser={props.selectUser}/>) }
             </div>
         </div>
     );
@@ -141,10 +187,8 @@ function lastPosted(time){
     return ta.ago(time);
 }
 
-function generateIcon(user) {
-    let hashFromUser = 'oiaw590uif0u934598uerue489tiuh';
-    //let hashFromUser = user? (user._id + user._id) : 'oiaw590uif0u934598uerue489tiuh'; // Causes error because user doesn't have id
-    return `data:image/png;base64,${new Identicon(hashFromUser)}`;
+function generateIcon(id) {
+    return `data:image/png;base64,${new Identicon(id)}`;
 }
 
 /*
@@ -153,18 +197,23 @@ function generateIcon(user) {
 */
 const MessageItem = (props) => {
     return (
-        <Comment key={ props.item._id }>
-            <Comment.Avatar src={generateIcon(props.item.user)} />
+        <Comment key={ props.mItem._id }>
+            <Comment.Avatar src={generateIcon(props.mItem.user.item._id)} />
             <Comment.Content>
-                <Comment.Author as='a'>{ props.item.user ? props.item.user.nickname : 'Anonymous' }</Comment.Author>
+                <Comment.Author
+                    as='a'
+                    onClick={() => props.selectUser(props.mItem.user)}
+                    >
+                    { props.mItem.user.item.nickname }
+                </Comment.Author>
                 <Comment.Metadata>
-                    <div>{ formatTimestamp(props.item.time_stamp) }</div>
+                    <div>{ formatTimestamp(props.mItem.time_stamp) }</div>
                 </Comment.Metadata>
 
                 <Comment.Metadata>
-                    { lastPosted(props.item.time_stamp) }
+                    { lastPosted(props.mItem.time_stamp) }
                 </Comment.Metadata>
-                <Comment.Text>{ props.item.text }</Comment.Text>
+                <Comment.Text>{ props.mItem.text }</Comment.Text>
             </Comment.Content>
         </Comment>
     );

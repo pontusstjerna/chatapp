@@ -24,15 +24,22 @@ export default (app) => {
 
     server.listen(port, () => console.log(`Listening on port ${port}`));
 
+    let numUsers = 0;
+
     io.on(events.CONNECTION, socket => {
-        console.log('New user connected!');
+        console.log('New client connected! socket.id:', socket.id);
+
+        numUsers++;
+        console.log('count:', numUsers);
 
         rooms(io, socket);
         messages(io, socket);
         users(socket);
 
         socket.on('disconnect', function () {
-            console.log("user disconnected")
+            console.log("client disconnected, socket.id:", socket.id);
+            numUsers--;
+            console.log('count:', numUsers);
         });
 
         return socket;
