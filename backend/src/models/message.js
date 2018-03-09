@@ -1,31 +1,35 @@
-const mongoose = require("mongoose");
+import Mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
-
-const MessageSchema = new Schema(
-    {
-        text: {
-            type: String,
-            required: true,
-        },
-        time_stamp: {
-            type: Date,
-            default: Date.now
-        },
-        user: {
-            kind: String,
-            item: {
-                type: Schema.ObjectId,
-                refPath: 'user.kind',
+class MessageSchema extends Mongoose.Schema {
+    constructor() {
+        super({
+            text: {
+                type: String,
+                required: true,
+            },
+            time_stamp: {
+                type: Date,
+                default: Date.now
+            },
+            user: {
+                kind: {
+                    type: String,
+                    required: true,
+                    enum: ['User', 'AnonUser']
+                },
+                item: {
+                    type: Mongoose.Schema.ObjectId,
+                    refPath: 'user.kind',
+                    required: true
+                }
+            },
+            room: {
+                type: Mongoose.Schema.ObjectId,
+                ref: 'Room',
                 required: true
             }
-        },
-        room: {
-            type: Schema.ObjectId,
-            ref: 'Room',
-            required: true
-        }
-    });
-
+        })
+    }
+}
 //Export model
-module.exports = mongoose.model('Message', MessageSchema);
+export default Mongoose.model('Message', new MessageSchema());
