@@ -12,7 +12,6 @@ class User {
     }
 
     login(nickname, password) {
-        console.log("User.login");
         return socket.loginUser({nickname: nickname, password: password})
         .then((res) => {
             //if succesful
@@ -21,7 +20,7 @@ class User {
             this.about = res.about;
             this.token = res.token;
             this.userId = res.userId;
-            console.log("User logged in");
+            console.log("[" + this.nickname + "] logged in");
         })
     }
 
@@ -33,14 +32,16 @@ class User {
         this.token = null;
     }
 
-    update(user) {
-      console.log("User.update");
-      return socket.updateUser(user)
-        .then((res) => {
-          //if succesful
-          this.email = user.email;
-          this.nickname = user.nickname;
-          this.about = user.about;
+    updateSettings(userform) {
+        console.log("User.update:", userform);
+        userform.token = this.token;
+        userform.id = this.userId;
+        return socket.updateUser(userform)
+        .then((updated) => {
+            //if succesful
+            this.email = updated.email;
+            this.nickname = updated.nickname;
+            this.about = updated.about;
         })
     }
 
