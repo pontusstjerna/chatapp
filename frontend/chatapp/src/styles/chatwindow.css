@@ -1,6 +1,6 @@
 
 .ui.scroll{
-    height:500px;
+  height: 450px;
 	overflow-y: scroll;
     overflow-x: hidden;
 }
