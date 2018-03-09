@@ -9,6 +9,8 @@ import {
 import {
   registerUser
 } from '../../data/socket';
+import { FormattedMessage } from 'react-intl';
+import { Format } from 'react-intl-format';
 
 class RegisterView extends Component {
 
@@ -61,41 +63,43 @@ class RegisterView extends Component {
     event.preventDefault();
   }
 
-  render() {
+ render() {
     return (
+      <Format>
+      {intl => (
       <div>
         <Grid centered columns={3}>
           <Grid.Column>
             <h2>
-              Register user
+              <FormattedMessage id = "register.userRegister"/>
             </h2>
             <Form error={this.state.formError} onSubmit={this.handleSubmit}>
               <Form.Input
                 type="text"
-                placeholder="Email"
+                placeholder={intl.formatMessage({id:'register.email'})}
                 value={this.state.email}
                 onChange={e => this.setState({email: e.target.value})}
               />
               <Form.Input
                 type="text"
-                placeholder="Nickname"
+                placeholder={intl.formatMessage({id:'register.nickname'})}
                 value={this.state.nickname}
                 onChange={e => this.setState({nickname: e.target.value})}
               />
               <Form.Input
                 type="password"
-                placeholder="Password"
+                placeholder={intl.formatMessage({id:'register.password'})}
                 value={this.state.password}
                 onChange={e => this.setState({password: e.target.value})}
               />
               <Form.Input
                 error={!this.state.passwordConf}
                 type="password"
-                placeholder="Confirm password"
+                placeholder={intl.formatMessage({id:'register.confirmPassword'})}
                 value={this.state.confirmPassword}
                 onChange={this.handlePswdConfChange}
               />
-              <Button type='submit'>Submit</Button>
+              <Button type='submit'><FormattedMessage id = "register.submit"/></Button>
               <Message
                 error
                 header='Action Forbidden'
@@ -108,8 +112,11 @@ class RegisterView extends Component {
           <Redirect to={'login'}/>
         )}
       </div>
+	  )}
+      </Format>
     );
   }
+  
 }
 
 export default RegisterView

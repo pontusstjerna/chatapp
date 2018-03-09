@@ -13,7 +13,7 @@ import {
 
 import ChatWindowView from '../chat-window-view';
 import CreateRoomView from './components/createRoomView';
-
+import { FormattedMessage } from 'react-intl';
 
 class SidebarView extends Component {
 
@@ -65,15 +65,15 @@ class SidebarView extends Component {
                     <div className="four wide column">
                         <div className="ui left vertical fluid menu">
                             <div className="item">
-                                <div className="header">Rooms</div>
+                                <div className="header"><FormattedMessage id = "chatrooms.rooms"/></div>
                                 <div className="menu">
                                     {this.renderLinks()}
                                 </div>
                             </div>
                             <div className="item">
-                                <div className="header">Manage</div>
+                                <div className="header"><FormattedMessage id = "chatrooms.manage"/></div>
                                 <div className="menu">
-                                    <NavLink className="item" to="/chat/addRoom">Add room </NavLink>
+                                    <NavLink className="item" to="/chat/addRoom"><FormattedMessage id = "chatrooms.addRooms"/></NavLink>
                                 </div>
                             </div>
                         </div>

@@ -18,6 +18,9 @@ import RegisterView from '../register-view';
 import LoginView from '../login-view';
 import Footer from '../footer';
 
+/* react-intl imports */
+import { FormattedMessage } from 'react-intl';
+
 export default class Frame extends Component {
     constructor(props) {
         // This needs to be called first. Props is an object containing all properties of a component
@@ -51,19 +54,18 @@ export default class Frame extends Component {
                 <div>
                     <div className="ui container">
 
-                        <div className="ui inverted menu">
-                                <NavLink className="item" exact to="/">Home</NavLink>
-                                <NavLink className="item" to="/chat">Chat!</NavLink>
-                                <NavLink className="item" to="/about">About</NavLink>
-                                {this.state.loggedIn &&
-                                  (<NavLink className="item" to="/settings">Settings</NavLink>)
-                                }
-                                {this.state.loggedIn ?
-                                  (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
-                                  (<NavLink className="item right" to="/login">Login</NavLink>) }
-                        </div>
+                    <div className="ui inverted menu">
 
-                        { /* PUT ALL CONTENT HERE */}
+                            <NavLink className="item" exact to="/"><FormattedMessage id = "frame.home"/></NavLink>
+                            <NavLink className="item" to="/chat"><FormattedMessage id = "frame.chat"/></NavLink>
+                            <NavLink className="item" to="/about"><FormattedMessage id = "frame.about"/></NavLink>
+                            {this.state.loggedIn &&
+                              (<NavLink className="item" to="/settings"><FormattedMessage id = "frame.settings"/></NavLink>)
+                            }
+                            {this.state.loggedIn ?
+                              (<NavLink className="item right" to="/" onClick={this.handleLogout}><FormattedMessage id = "frame.logout" /></NavLink>) :
+                              (<NavLink className="item right" to="/login"><FormattedMessage id = "frame.login" /></NavLink>) }
+                    </div>
 
                         <div className="content page-content">
                             <Route exact path="/" component={HomeView} />

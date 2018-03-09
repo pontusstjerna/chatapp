@@ -10,8 +10,9 @@ import {
 } from '../../data/socket';
 import { Comment } from 'semantic-ui-react';
 import User from '../../model/User';
+import { FormattedMessage  } from 'react-intl';
+import { Format } from 'react-intl-format';
 import UserView from '../user-view';
-
 
 export default class ChatWindowView extends Component {
     constructor(props) {
@@ -102,6 +103,8 @@ export default class ChatWindowView extends Component {
 
     render() {
         return (
+            <Format>
+            {intl => (
             <div>
                 {this.state.selectUser &&
                     <UserView
@@ -121,7 +124,7 @@ export default class ChatWindowView extends Component {
                             <textarea
                                 className="chat-input"
                                 value={this.state.input}
-                                placeholder="Write a message... "
+                                placeholder={intl.formatMessage({id:"chatwindow.input"})}
                                 rows="2"
                                 autoFocus
                                 onChange={e => {
@@ -137,11 +140,13 @@ export default class ChatWindowView extends Component {
                                 />
                         </div>
                         <div className="ui blue labeled submit icon button" onClick={() => this.send()}>
-                            <i className="icon edit"></i> Send
+                            <i className="icon edit"></i> <FormattedMessage id = "chatwindow.send"/>
                         </div>
                     </form>
                 </div>
             </div>
+            )}
+            </Format>
         );
     }
 

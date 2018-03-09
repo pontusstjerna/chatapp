@@ -5,6 +5,8 @@ import {
   Grid
 } from 'semantic-ui-react'
 import User from '../../model/User';
+import { FormattedMessage  } from 'react-intl';
+import { Format } from 'react-intl-format';
 
 class SettingsView extends Component {
   constructor(props) {
@@ -40,31 +42,35 @@ class SettingsView extends Component {
   render() {
     if (User.isLoggedIn()) {
       return (
+        <Format>
+        {intl => (
         <div>
           <Grid centered columns={3}>
             <Grid.Column>
-              <h2>Settings</h2>
+              <h2><FormattedMessage id = "settings.settings"/></h2>
               <p>{this.state.email}</p>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Input
                   label="Nickname"
                   type="text"
-                  placeholder="Nickname"
+                  placeholder={intl.formatMessage({id:'settings.nickname'})}
                   value={this.state.nickname}
                   onChange={e => this.setState({nickname: e.target.value})}
                 />
                 <Form.Input
                   label="About me"
                   type="text"
-                  placeholder="About me"
+                  placeholder={intl.formatMessage({id:'settings.about'})}
                   value={this.state.about}
                   onChange={e => this.setState({about: e.target.value})}
                 />
-                <Button type="submit">Save</Button>
+                <Button type="submit"><FormattedMessage id = "settings.save"/></Button>
               </Form>
             </Grid.Column>
           </Grid>
         </div>
+        )}
+        </Format>
       )
     } else {
       return (
