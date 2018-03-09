@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Redirect } from 'react-router'
 import {
   Button,
   Form,
@@ -20,7 +21,8 @@ class RegisterView extends Component {
       confirmPassword: '',
       passwordConf: true,
       formError: false,
-      errorMsg: ''
+      errorMsg: '',
+      fireRedirect: false,
     };
 
     this.handlePswdConfChange = this.handlePswdConfChange.bind(this);
@@ -45,6 +47,8 @@ class RegisterView extends Component {
       };
       registerUser(user)
         .then(savedUser => {
+            alert("You were registered!")
+            this.setState({ fireRedirect: true });
             console.log("Registered User: ", savedUser);
         })
         .catch(err => {
@@ -100,6 +104,9 @@ class RegisterView extends Component {
             </Form>
           </Grid.Column>
         </Grid>
+        {this.state.fireRedirect && (
+          <Redirect to={'login'}/>
+        )}
       </div>
     );
   }
