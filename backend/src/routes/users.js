@@ -7,6 +7,7 @@ import {
     USER_LOGIN,
     USER_LOGOUT,
     USER_UPDATE,
+    USER_INFO,
     ANON_CREATE,
     ERROR,
 } from '../socket/events';
@@ -128,7 +129,7 @@ export default (socket) => {
             return;
         }
 
-        User.findOne({ email: email }).then(user => {
+          User.findOne({ email: email }).then(user => {
             console.log(JSON.stringify(user));
             if (user) {
                 user.email = email;
@@ -167,6 +168,37 @@ export default (socket) => {
                 socket.emit(USER_UPDATE, JSON.stringify(error));
                 return;
             }
+        });
+    });
+
+    socket.on(USER_INFO, (userId) => {
+        User.findOne({_id: userId}).then(user => {
+            if(user) {
+              socket.emit(USER_INFO, JSON.stringify({
+                success: true,
+                data: {
+                  nickname: user.nickname,
+                  about: user.about
+                }
+              }));
+            } else {
+              let anonymousUser = {
+                  success: true,
+                  data: {
+                      nickname: 'Anonymous',
+                      about: "You don't me",
+                  },
+              };
+              socket.emit(USER_INFO, JSON.stringify(anonymousUser));
+            }
+        }).catch(err => {
+          console.log('ARGH');
+          let error = {
+              success: false,
+              data: null,
+              error: "User info fetch failed"
+          };
+          socket.emit(USER_INFO, JSON.stringify(error));
         });
     });
 

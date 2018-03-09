@@ -10,6 +10,7 @@ import {
 } from '../../data/socket';
 import { Comment } from 'semantic-ui-react';
 import User from '../../model/User';
+import UserView from '../user-view';
 
 
 export default class ChatWindowView extends Component {
@@ -18,8 +19,10 @@ export default class ChatWindowView extends Component {
 
         this.state = {
             messages: [],
-            input: ''
+            input: '',
+            selectUser: null,
         };
+        this.selectUser = this.selectUser.bind(this);
     }
 
     componentDidMount() {
@@ -91,14 +94,25 @@ export default class ChatWindowView extends Component {
         }
     }
 
+    selectUser(user){
+      this.setState({selectUser: user});
+    }
+
     render() {
         return (
             <div>
+                {this.state.selectUser &&
+                    <UserView
+                        user={this.state.selectUser}
+                        onClose={() => this.setState({selectUser: null})}
+                        generateIcon={generateIcon}
+                        />
+                }
                 <h2>{"#" + this.props.room.name.replace(/_/g, ' ')}</h2>
                 <p>{this.props.room.description ? this.props.room.description : 'Public chat room'}</p>
                     <div className="ui segment">
 
-                    <MessageList messageArr={ this.state.messages }/>
+                    <MessageList messageArr={ this.state.messages } selectUser={this.selectUser}/>
 
                     <form className="ui reply form">
                         <div className="field">
@@ -134,7 +148,7 @@ const MessageList = (props) => {
     return (
         <div className="ui scroll">
             <div className="ui comments">
-                { props.messageArr.map((msg) => <MessageItem key={ msg._id } mItem={ msg }/>) }
+                { props.messageArr.map((msg) => <MessageItem key={ msg._id } mItem={ msg } selectUser={props.selectUser}/>) }
             </div>
         </div>
     );
@@ -181,7 +195,12 @@ const MessageItem = (props) => {
         <Comment key={ props.mItem._id }>
             <Comment.Avatar src={generateIcon(props.mItem.user.item._id)} />
             <Comment.Content>
-                <Comment.Author as='a'>{ props.mItem.user.item.nickname }</Comment.Author>
+                <Comment.Author
+                    as='a'
+                    onClick={() => props.selectUser(props.mItem.user)}
+                    >
+                    { props.mItem.user.item.nickname }
+                </Comment.Author>
                 <Comment.Metadata>
                     <div>{ formatTimestamp(props.mItem.time_stamp) }</div>
                 </Comment.Metadata>

@@ -48,29 +48,32 @@ export default class Frame extends Component {
     render() {
         return (
             <HashRouter>
-                <div className="ui container">
+                <div>
+                    <div className="ui container">
 
-                    <div className="ui inverted menu">
-                            <NavLink className="item" exact to="/">Home</NavLink>
-                            <NavLink className="item" to="/chat">Chat!</NavLink>
-                            <NavLink className="item" to="/about">About</NavLink>
-                            {this.state.loggedIn &&
-                              (<NavLink className="item" to="/settings">Settings</NavLink>)
-                            }
-                            {this.state.loggedIn ?
-                              (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
-                              (<NavLink className="item right" to="/login">Login</NavLink>) }
-                    </div>
+                        <div className="ui inverted menu">
+                                <NavLink className="item" exact to="/">Home</NavLink>
+                                <NavLink className="item" to="/chat">Chat!</NavLink>
+                                <NavLink className="item" to="/about">About</NavLink>
+                                {this.state.loggedIn &&
+                                  (<NavLink className="item" to="/settings">Settings</NavLink>)
+                                }
+                                {this.state.loggedIn ?
+                                  (<NavLink className="item right" to="/" onClick={this.handleLogout}>Logout</NavLink>) :
+                                  (<NavLink className="item right" to="/login">Login</NavLink>) }
+                        </div>
 
-                    { /* PUT ALL CONTENT HERE */}
+                        { /* PUT ALL CONTENT HERE */}
 
-                    <div className="content page-content">
-                        <Route exact path="/" component={HomeView} />
-                        <Route path="/chat" component={SidebarView} />
-                        <Route path="/about" component={AboutView} />
-                        <Route path="/settings" component={SettingsView} />
-                        <Route path="/login" component={LoginView} />
-                        <Route path="/register" component={RegisterView} />
+                        <div className="content page-content">
+                            <Route exact path="/" component={HomeView} />
+                            <Route path="/chat" component={SidebarView} />
+                            <Route path="/about" component={AboutView} />
+                            <Route path="/settings" component={SettingsView} />
+                            <Route path="/login" component={LoginView} />
+                            <Route path="/register" component={RegisterView} />
+                        </div>
+
                     </div>
                     <Footer/>
                 </div>

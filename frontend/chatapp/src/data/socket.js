@@ -173,3 +173,21 @@ export const updateUser = (user) => {
     })
   });
 }
+
+export const getUserInfo = (userId) => {
+  console.log('Emitting USER_INFO: ' + JSON.stringify(userId));
+  socket.emit(events.USER_INFO, userId);
+
+  return new Promise((resolve, reject) => {
+    socket.on(events.USER_INFO, response => {
+      let res = JSON.parse(response);
+      console.log(response);
+      if (res.success) {
+        resolve(res.data);
+      } else {
+        console.log("#getUserInfo:reject: ", res.error)
+        reject(res.error);
+      }
+    })
+  });
+}

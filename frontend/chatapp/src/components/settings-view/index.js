@@ -32,6 +32,7 @@ class SettingsView extends Component {
             about: User.getUserAbout(),
             email: User.getUserEmail()
         });
+        alert('Successfully updated user settings!');
     });
     event.preventDefault();
   }
