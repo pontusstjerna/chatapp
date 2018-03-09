@@ -7,7 +7,8 @@ import {
 //import * as constants from '../../data/constants';
 import {
     getRooms,
-    registerNewRoom,
+    registerReceiveNewRoom,
+    unregisterReceiveNewRoom
 } from '../../data/socket';
 
 import ChatWindowView from '../chat-window-view';
@@ -18,16 +19,22 @@ class SidebarView extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             rooms: [],
         }
     }
 
     componentDidMount() {
-        registerNewRoom((success) => {
-            this.getAllRooms();
-        });
+        registerReceiveNewRoom(this);
+        this.getAllRooms();
+    }
+
+    componentWillUnmount() {
+        unregisterReceiveNewRoom();
+    }
+
+    onReceiveNewRoom(room) {
+        console.log("new room exists: ", room);
         this.getAllRooms();
     }
 

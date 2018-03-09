@@ -63,26 +63,36 @@ export const createRoom = (room) => {
     socket.emit(events.CREATE_ROOM, JSON.stringify(room));
 }
 
-export const registerNewRoom = (listener) => {
-    socket.on(events.CREATE_ROOM, response => {
-        listener(JSON.parse(response));
-    })
+let ObserverReceiveNewRoom = null;
+
+export const registerReceiveNewRoom = (component) => {
+    ObserverReceiveNewRoom = component;
 }
 
+export const unregisterReceiveNewRoom = () => {
+    ObserverReceiveNewRoom = null;
+}
 
-let ObservingComponent = null;
+socket.on(events.CREATE_ROOM, room => {
+    if (ObserverReceiveNewRoom != null) {
+        ObserverReceiveNewRoom.onReceiveNewRoom(JSON.parse(room));
+    }
+});
+
+
+let ObserverReceiveMsg = null;
 
 export const registerReceiveMsg = (component) => {
-    ObservingComponent = component;
+    ObserverReceiveMsg = component;
 }
 
 export const unregisterReceiveMsg = () => {
-    ObservingComponent = null;
+    ObserverReceiveMsg = null;
 }
 
 socket.on(events.RECEIVE_MSG, msg => {
-    if (ObservingComponent != null) {
-        ObservingComponent.onReceiveMsg(JSON.parse(msg));
+    if (ObserverReceiveMsg != null) {
+        ObserverReceiveMsg.onReceiveMsg(JSON.parse(msg));
     }
 });
 
