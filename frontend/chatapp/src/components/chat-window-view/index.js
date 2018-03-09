@@ -41,9 +41,11 @@ export default class ChatWindowView extends Component {
 
     onReceiveMsg(newMessage) {
         console.log("onReceiveMsg: ", newMessage)
-        let messagesCopy = this.state.messages.slice();
-        messagesCopy.push(newMessage);
-        this.setState({messages: messagesCopy});
+        if (newMessage.room === this.props.room._id) {
+            let messagesCopy = this.state.messages.slice();
+            messagesCopy.push(newMessage);
+            this.setState({messages: messagesCopy});
+        }
     }
 
     getMessagesInRoom(roomId) {
@@ -120,6 +122,7 @@ export default class ChatWindowView extends Component {
                                 className="chat-input"
                                 value={this.state.input}
                                 placeholder="Write a message... "
+                                rows="2"
                                 autoFocus
                                 onChange={e => {
                                     if (e.target.value !== '\n') {
