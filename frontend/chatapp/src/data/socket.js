@@ -1,8 +1,10 @@
 import socketIOClient from 'socket.io-client';
 import * as events from './events';
 import * as constants from './constants';
+import Filter from 'bad-words';
 
 const socket = socketIOClient(`http://${constants.backendURL}:${constants.socketPort}`);
+const filter = new Filter();
 
 socket.on(events.ERROR, msg => {
     alert(msg);
@@ -10,6 +12,7 @@ socket.on(events.ERROR, msg => {
 });
 
 export const sendMessage = (msg) => {
+    msg.text = filter.clean(msg.text);//filters profanity before broadcasting to clients
     socket.emit(events.SEND_MSG, JSON.stringify(msg));
 }
 

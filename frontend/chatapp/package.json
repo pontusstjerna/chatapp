@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bad-words": "^1.6.1",
     "bootstrap": "^4.0.0",
-    "prop-types": "^15.6.1",
     "identicon.js": "^2.3.1",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",
