@@ -128,46 +128,39 @@ export default (socket) => {
             socket.emit(USER_UPDATE, JSON.stringify(error));
             return;
         }
-
-          User.findOne({ email: email }).then(user => {
-            console.log(JSON.stringify(user));
-            if (user) {
-                user.email = email;
-                user.nickname = nickname;
-                user.about = about;
-                user.save().then(result => {
-                    console.log(result);
-                    let response = {
-                        success: true,
-                        data: {
-                            msg: "User has been updated.",
-                            email: email,
-                            nickname: nickname,
-                            about: about,
-                        },
-                        error: null
-                    }
-                    socket.emit(USER_UPDATE, JSON.stringify(response));
-                    return;
-                }).catch(err => {
-                    console.log(err);
-                    let error = {
-                        success: false,
-                        data: null,
-                        error: "Update failed"
-                    };
-                    socket.emit(USER_UPDATE, JSON.stringify(error));
-                    return;
-                });
-            } else {
-                let error = {
-                    success: false,
-                    data: null,
-                    error: "Update failed"
-                };
-                socket.emit(USER_UPDATE, JSON.stringify(error));
-                return;
+        User.findByIdAndUpdate(id, {email, nickname, about}, {new: true}).then(result => {
+          if (result) {
+            console.log(result);
+            let response = {
+                success: true,
+                data: {
+                    msg: "User has been updated.",
+                    email: email,
+                    nickname: nickname,
+                    about: about,
+                },
+                error: null
             }
+            socket.emit(USER_UPDATE, JSON.stringify(response));
+            return;
+          } else {
+            let error = {
+                success: false,
+                data: null,
+                error: "Update failed"
+            };
+            socket.emit(USER_UPDATE, JSON.stringify(error));
+            return;
+          }
+        }).catch(err => {
+            console.log(err);
+            let error = {
+                success: false,
+                data: null,
+                error: "Update failed"
+            };
+            socket.emit(USER_UPDATE, JSON.stringify(error));
+            return;
         });
     });
 
