@@ -113,7 +113,8 @@ export default class ChatWindowView extends Component {
                         generateIcon={generateIcon}
                         />
                 }
-                <h2>{"#" + this.props.room.name.replace(/_/g, ' ')}</h2>
+                <div className="roomname">{"#" + this.props.room.name.replace(/_/g, ' ')}</div>
+                <div className="nickname">{User.getNickname()}</div>
                 <p>{this.props.room.description ? this.props.room.description : 'Public chat room'}</p>
                     <div className="ui segment">
 
