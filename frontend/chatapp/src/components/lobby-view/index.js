@@ -15,7 +15,7 @@ import ChatWindowView from '../chat-window-view';
 import CreateRoomView from './components/createRoomView';
 import { FormattedMessage } from 'react-intl';
 
-class SidebarView extends Component {
+class LobbyView extends Component {
 
     constructor(props) {
         super(props);
@@ -89,4 +89,4 @@ class SidebarView extends Component {
     }
 }
 
-export default SidebarView;
+export default LobbyView;

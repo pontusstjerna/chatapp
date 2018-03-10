@@ -11,7 +11,7 @@ import {
 } from '../../data/socket';
 
 import HomeView from '../home-view';
-import SidebarView from '../sidebar-view';
+import LobbyView from '../lobby-view';
 import AboutView from '../about-view';
 import SettingsView from '../settings-view';
 import RegisterView from '../register-view';
@@ -69,7 +69,7 @@ export default class Frame extends Component {
 
                         <div className="content page-content">
                             <Route exact path="/" component={HomeView} />
-                            <Route path="/chat" component={SidebarView} />
+                            <Route path="/chat" component={LobbyView} />
                             <Route path="/about" component={AboutView} />
                             <Route path="/settings" component={SettingsView} />
                             <Route path="/login" component={LoginView} />
