@@ -8,15 +8,9 @@ import users from '../routes/users';
 
 const port = 4000;
 
-
-var Filter = require('bad-words');
-
 export default (app) => {
     // our server instance
     const server = http.createServer(app);
-
-    // our profanity filter
-    const filter = new Filter();
 
     // This creates our socket using the instance of the server
     const io = socketIO(server);
